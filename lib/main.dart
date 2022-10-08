@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/config.dart';
 import 'package:my_cving/app/pages/widgets/navbar_widget.dart';
-<<<<<<< HEAD
 import 'package:my_cving/app/utils/theme.dart';
-=======
-import 'package:my_cving/app/utils/widget_utils.dart';
->>>>>>> db71ce9ca3983adf9e22346cc5bc0d72efc7fea3
 import 'package:my_cving/settings/theme_providers.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
