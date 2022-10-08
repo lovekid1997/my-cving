@@ -7,97 +7,105 @@ import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/app/utils/widget_utils.dart';
 import 'package:rive/rive.dart';
 
-class NavbarWidget extends StatelessWidget {
+class NavbarWidget extends StatefulWidget {
   const NavbarWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            _Logo(),
-            _ButtonAnimation(title: 'Giới thiệu'),
-            _ButtonAnimation(title: "Dự án"),
-            _ButtonAnimation(title: "CV"),
-            _ButtonAnimation(title: "Tài liệu"),
-            _ButtonAnimation(title: "Trò chơi"),
-          ],
-        ),
-        kDivider,
-      ],
-    );
-  }
+  State<NavbarWidget> createState() => _NavbarWidgetState();
 }
 
-class _ButtonAnimation extends StatefulWidget {
-  const _ButtonAnimation({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-  final String title;
-
-  @override
-  State<_ButtonAnimation> createState() => _ButtonAnimationState();
-}
-
-class _ButtonAnimationState extends State<_ButtonAnimation> {
-  double height = 0;
+class _NavbarWidgetState extends State<NavbarWidget> {
+  double heightExpand = 0;
+  double opacity = 0;
+  final double imageSize = 100;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 50),
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: TextButton.icon(
-            label: Text(widget.title),
-            onPressed: () {},
-            icon: const Icon(
-              Icons.expand_more,
-            ),
-            onHover: (val) {
-              if (val) {
-                setState(() {
-                  height = 300;
-                });
-              } else {
-                setState(() {
-                  height = 0;
-                });
-              }
-            },
-            style: ButtonStyle(
-              animationDuration: Duration.zero,
-              foregroundColor: MaterialStateProperty.resolveWith(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.hovered) ||
-                      states.contains(MaterialState.focused)) {
-                    return cLightDart;
-                  }
-                  return null;
-                },
-              ),
-              textStyle: MaterialStateProperty.all(context.headline6),
-              backgroundColor: MaterialStateProperty.all(cTransparent),
-              overlayColor: MaterialStateProperty.all(cTransparent),
+    return MouseRegion(
+      onExit: (_) => onClose(),
+      child: Column(
+        children: [
+          IntrinsicWidth(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _Logo(imageSize: imageSize),
+                    _AnimationButtonNavbar(
+                      title: 'Giới thiệu',
+                      onHover: onExpand,
+                    ),
+                    _AnimationButtonNavbar(
+                      title: "Dự án",
+                      onHover: onExpand,
+                    ),
+                    _AnimationButtonNavbar(
+                      title: "CV",
+                      onHover: onExpand,
+                    ),
+                    _AnimationButtonNavbar(
+                      title: "Tài liệu",
+                      onHover: onExpand,
+                    ),
+                    _AnimationButtonNavbar(
+                      title: "Trò chơi",
+                      onHover: onExpand,
+                    ),
+                  ],
+                ),
+                AnimatedContainer(
+                  duration: kDuration300ml,
+                  height: heightExpand,
+                  child: AnimatedOpacity(
+                    duration: kDuration300ml,
+                    opacity: opacity,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.zero,
+                      child: Column(
+                        children: [
+                          kDivider,
+                          kHeight4,
+                          Row(
+                            children: [
+                              _AnimationSubButtonNavbar(
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-        AnimatedContainer(
-          duration: kDuration500ml,
-          height: height,
-        ),
-      ],
+          kDivider,
+        ],
+      ),
     );
+  }
+
+  void onExpand() {
+    setState(() {
+      heightExpand = 120;
+      opacity = 1;
+    });
+  }
+
+  void onClose() {
+    setState(() {
+      heightExpand = 0;
+      opacity = 0;
+    });
   }
 }
 
 class _Logo extends StatefulWidget {
-  const _Logo();
-
+  const _Logo({required this.imageSize});
+  final double imageSize;
   @override
   State<_Logo> createState() => _LogoState();
 }
@@ -154,7 +162,7 @@ class _LogoState extends State<_Logo> {
           _walkInput?.value = false;
         },
         child: SizedBox.square(
-          dimension: 120,
+          dimension: widget.imageSize,
           child: Rive(
             artboard: _riveArtboard!,
             fit: BoxFit.cover,
@@ -176,5 +184,105 @@ class _LogoState extends State<_Logo> {
   void dispose() {
     timer.cancel();
     super.dispose();
+  }
+}
+
+class _AnimationButtonNavbar extends StatelessWidget {
+  const _AnimationButtonNavbar({
+    Key? key,
+    required this.title,
+    required this.onHover,
+  }) : super(key: key);
+  final String title;
+  final Function() onHover;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 40),
+        Directionality(
+          textDirection: TextDirection.rtl,
+          child: TextButton.icon(
+            label: Text(title),
+            onPressed: () {},
+            icon: const Icon(
+              Icons.expand_more,
+            ),
+            onHover: (_) => onHover(),
+            style: ButtonStyle(
+              animationDuration: Duration.zero,
+              textStyle: MaterialStateProperty.all(context.headlineSmall),
+              backgroundColor: MaterialStateProperty.all(cTransparent),
+              overlayColor: MaterialStateProperty.all(cTransparent),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _AnimationSubButtonNavbar extends StatefulWidget {
+  const _AnimationSubButtonNavbar({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+  final Function() onTap;
+
+  @override
+  State<_AnimationSubButtonNavbar> createState() =>
+      _AnimationSubButtonNavbarState();
+}
+
+class _AnimationSubButtonNavbarState extends State<_AnimationSubButtonNavbar> {
+  Color? titleColor;
+  Color subTitleColor = cTextDark;
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onHover: highlightColor,
+      onExit: offHightLightColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: k4,
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.person,
+                  color: titleColor,
+                ),
+                Text(
+                  'Hồ sơ',
+                  style: context.titleLarge.copyWith(color: titleColor),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            '''Vinh Nguyễn Thế
+Flutter developer at Mmenu
+Quận 12, Ho Chi Minh City, Vietnam''',
+            style: context.titleSmall.copyWith(color: subTitleColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void highlightColor(_) {
+    titleColor = cTextLightDark;
+    subTitleColor = cTextNormalDark;
+    setState(() {});
+  }
+
+  void offHightLightColor(_) {
+    titleColor = null;
+    subTitleColor = cTextDark;
+    setState(() {});
   }
 }
