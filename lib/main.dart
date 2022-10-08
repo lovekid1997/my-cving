@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_cving/app/config/config.dart';
 import 'package:my_cving/app/pages/widgets/navbar_widget.dart';
+import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/settings/theme_providers.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupFont();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -27,10 +31,8 @@ class MyApp extends ConsumerWidget {
           ],
         );
       },
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData.dark(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       themeMode: themeMode,
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,

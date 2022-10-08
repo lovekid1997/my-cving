@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_cving/app/utils/context.dart';
+import 'package:my_cving/app/utils/theme.dart';
+import 'package:my_cving/app/utils/widget_utils.dart';
 import 'package:rive/rive.dart';
 
 class NavbarWidget extends StatelessWidget {
@@ -7,9 +12,84 @@ class NavbarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        _Logo(),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            _Logo(),
+            _ButtonAnimation(title: 'Giới thiệu'),
+            _ButtonAnimation(title: "Dự án"),
+            _ButtonAnimation(title: "CV"),
+            _ButtonAnimation(title: "Tài liệu"),
+            _ButtonAnimation(title: "Trò chơi"),
+          ],
+        ),
+        kDivider,
+      ],
+    );
+  }
+}
+
+class _ButtonAnimation extends StatefulWidget {
+  const _ButtonAnimation({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+  final String title;
+
+  @override
+  State<_ButtonAnimation> createState() => _ButtonAnimationState();
+}
+
+class _ButtonAnimationState extends State<_ButtonAnimation> {
+  double height = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 50),
+        Directionality(
+          textDirection: TextDirection.rtl,
+          child: TextButton.icon(
+            label: Text(widget.title),
+            onPressed: () {},
+            icon: const Icon(
+              Icons.expand_more,
+            ),
+            onHover: (val) {
+              if (val) {
+                setState(() {
+                  height = 300;
+                });
+              } else {
+                setState(() {
+                  height = 0;
+                });
+              }
+            },
+            style: ButtonStyle(
+              animationDuration: Duration.zero,
+              foregroundColor: MaterialStateProperty.resolveWith(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.hovered) ||
+                      states.contains(MaterialState.focused)) {
+                    return cLightDart;
+                  }
+                  return null;
+                },
+              ),
+              textStyle: MaterialStateProperty.all(context.headline6),
+              backgroundColor: MaterialStateProperty.all(cTransparent),
+              overlayColor: MaterialStateProperty.all(cTransparent),
+            ),
+          ),
+        ),
+        AnimatedContainer(
+          duration: kDuration,
+          height: height,
+        ),
       ],
     );
   }
@@ -30,6 +110,8 @@ class _LogoState extends State<_Logo> {
   static const String stateMachineName = 'Animate it';
   static const String walk = 'walk';
   static const String jump = 'JumpIT';
+
+  late Timer timer;
 
   @override
   void initState() {
@@ -54,6 +136,7 @@ class _LogoState extends State<_Logo> {
       _walkInput?.value = true;
     });
     super.initState();
+    _autoWalk();
   }
 
   @override
@@ -61,30 +144,37 @@ class _LogoState extends State<_Logo> {
     if (_riveArtboard == null) {
       return const SizedBox.shrink();
     }
-    return Row(
-      children: [
-        GestureDetector(
-          onPanEnd: (_) {
-            _jumpInput?.value = true;
-          },
-          onPanDown: (_) {
-            _jumpInput?.value = true;
-          },
-          onPanUpdate: (_) {
-            _jumpInput?.value = true;
-          },
-          onPanStart: (_) {
-            _jumpInput?.value = true;
-          },
-          onTap: () {
-            _jumpInput?.value = true;
-          },
-          child: SizedBox.square(
-            dimension: 80,
-            child: Rive(artboard: _riveArtboard!),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed('/');
+      },
+      child: MouseRegion(
+        onHover: (_) {
+          _jumpInput?.value = true;
+          _walkInput?.value = false;
+        },
+        child: SizedBox.square(
+          dimension: 120,
+          child: Rive(
+            artboard: _riveArtboard!,
+            fit: BoxFit.cover,
           ),
         ),
-      ],
+      ),
     );
+  }
+
+  void _autoWalk() {
+    timer = Timer.periodic(const Duration(seconds: 6), (timer) {
+      if (!(_walkInput?.value ?? false)) {
+        _walkInput?.value = true;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }
