@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_cving/app/utils/widget_utils.dart';
 import 'package:rive/rive.dart';
 
 class NavbarWidget extends StatelessWidget {
@@ -7,9 +8,15 @@ class NavbarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        _Logo(),
+    return Column(
+      children: [
+        Row(
+          children: const [
+            _Logo(),
+            Text('qweqweqwewqeqweqweqweqwe'),
+          ],
+        ),
+        kDivider,
       ],
     );
   }
@@ -64,24 +71,18 @@ class _LogoState extends State<_Logo> {
     return Row(
       children: [
         GestureDetector(
-          onPanEnd: (_) {
-            _jumpInput?.value = true;
-          },
-          onPanDown: (_) {
-            _jumpInput?.value = true;
-          },
-          onPanUpdate: (_) {
-            _jumpInput?.value = true;
-          },
-          onPanStart: (_) {
-            _jumpInput?.value = true;
-          },
           onTap: () {
-            _jumpInput?.value = true;
+            Navigator.of(context).pushNamed('/');
           },
-          child: SizedBox.square(
-            dimension: 80,
-            child: Rive(artboard: _riveArtboard!),
+          child: MouseRegion(
+            onHover: (_) {
+              _jumpInput?.value = true;
+              _walkInput?.value = !(_walkInput?.value ?? false);
+            },
+            child: SizedBox.square(
+              dimension: 80,
+              child: Rive(artboard: _riveArtboard!),
+            ),
           ),
         ),
       ],
