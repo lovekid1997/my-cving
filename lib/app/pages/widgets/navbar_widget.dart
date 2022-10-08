@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:my_cving/app/utils/context.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/app/utils/widget_utils.dart';
+import 'package:my_cving/data/local/hard_code.dart';
+import 'package:my_cving/domain/entities/nav_bar.dart';
 import 'package:rive/rive.dart';
 
 class NavbarWidget extends StatefulWidget {
@@ -15,9 +17,16 @@ class NavbarWidget extends StatefulWidget {
 }
 
 class _NavbarWidgetState extends State<NavbarWidget> {
+  // animation state
   double heightExpand = 0;
   double opacity = 0;
   final double imageSize = 100;
+
+  // selected state
+  int? selected;
+
+  final data = HardCodeData.navBarData;
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -32,26 +41,17 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _Logo(imageSize: imageSize),
-                    _AnimationButtonNavbar(
-                      title: 'Giới thiệu',
-                      onHover: onExpand,
-                    ),
-                    _AnimationButtonNavbar(
-                      title: "Dự án",
-                      onHover: onExpand,
-                    ),
-                    _AnimationButtonNavbar(
-                      title: "CV",
-                      onHover: onExpand,
-                    ),
-                    _AnimationButtonNavbar(
-                      title: "Tài liệu",
-                      onHover: onExpand,
-                    ),
-                    _AnimationButtonNavbar(
-                      title: "Trò chơi",
-                      onHover: onExpand,
-                    ),
+                    ...data
+                        .asMap()
+                        .map((index, e) => MapEntry(
+                            index,
+                            _AnimationButtonNavbar(
+                              title: e.title,
+                              onHover: () => onExpand(index),
+                              isSelected: isSelected(index),
+                            )))
+                        .values
+                        .toList(),
                   ],
                 ),
                 AnimatedContainer(
@@ -67,12 +67,25 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                         children: [
                           kDivider,
                           kHeight4,
-                          Row(
-                            children: [
-                              _AnimationSubButtonNavbar(
-                                onTap: () {},
-                              ),
-                            ],
+                          AnimatedSwitcher(
+                            duration: kDuration300ml,
+                            child: Row(
+                              key: ValueKey(selected),
+                              children: [
+                                if (selected == null)
+                                  const SizedBox.shrink()
+                                else
+                                  ...data[selected!]
+                                      .navbarSubEntities
+                                      .map(
+                                        (e) => _AnimationSubButtonNavbar(
+                                          onTap: () {},
+                                          subNavbar: e,
+                                        ),
+                                      )
+                                      .toList(),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -88,18 +101,23 @@ class _NavbarWidgetState extends State<NavbarWidget> {
     );
   }
 
-  void onExpand() {
-    setState(() {
-      heightExpand = 120;
-      opacity = 1;
-    });
+  bool isSelected(int index) => index == selected;
+
+  void onExpand(int index) {
+    if (opacity > 0 && selected == index) {
+      return;
+    }
+    selected = index;
+    heightExpand = 120;
+    opacity = 1;
+    setState(() {});
   }
 
   void onClose() {
-    setState(() {
-      heightExpand = 0;
-      opacity = 0;
-    });
+    selected = null;
+    heightExpand = 0;
+    opacity = 0;
+    setState(() {});
   }
 }
 
@@ -192,9 +210,11 @@ class _AnimationButtonNavbar extends StatelessWidget {
     Key? key,
     required this.title,
     required this.onHover,
+    required this.isSelected,
   }) : super(key: key);
   final String title;
   final Function() onHover;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +231,7 @@ class _AnimationButtonNavbar extends StatelessWidget {
             ),
             onHover: (_) => onHover(),
             style: ButtonStyle(
+              foregroundColor: foregroundColor(context),
               animationDuration: Duration.zero,
               textStyle: MaterialStateProperty.all(context.headlineSmall),
               backgroundColor: MaterialStateProperty.all(cTransparent),
@@ -221,15 +242,24 @@ class _AnimationButtonNavbar extends StatelessWidget {
       ],
     );
   }
+
+  MaterialStateProperty<Color?>? foregroundColor(
+          BuildContext context) =>
+      isSelected
+          ? MaterialStateProperty.all(context
+              .theme.textButtonTheme.style!.foregroundColor!
+              .resolve({MaterialState.hovered}))
+          : null;
 }
 
 class _AnimationSubButtonNavbar extends StatefulWidget {
   const _AnimationSubButtonNavbar({
     Key? key,
     required this.onTap,
+    required this.subNavbar,
   }) : super(key: key);
   final Function() onTap;
-
+  final SubNavbar subNavbar;
   @override
   State<_AnimationSubButtonNavbar> createState() =>
       _AnimationSubButtonNavbarState();
@@ -238,6 +268,7 @@ class _AnimationSubButtonNavbar extends StatefulWidget {
 class _AnimationSubButtonNavbarState extends State<_AnimationSubButtonNavbar> {
   Color? titleColor;
   Color subTitleColor = cTextDark;
+  SubNavbar get subNavbar => widget.subNavbar;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -255,21 +286,19 @@ class _AnimationSubButtonNavbarState extends State<_AnimationSubButtonNavbar> {
               child: Row(
                 children: [
                   Icon(
-                    Icons.person,
+                    subNavbar.icon,
                     color: titleColor,
                   ),
                   kWidth4,
                   Text(
-                    'Hồ sơ',
+                    subNavbar.title,
                     style: context.titleLarge.copyWith(color: titleColor),
                   ),
                 ],
               ),
             ),
             Text(
-              '''Vinh Nguyễn Thế
-Flutter developer at Mmenu
-Quận 12, Ho Chi Minh City, Vietnam''',
+              subNavbar.subTitle,
               style: context.titleSmall.copyWith(color: subTitleColor),
             ),
           ],

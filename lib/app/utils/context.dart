@@ -9,6 +9,8 @@ extension ContextExtension on BuildContext {
   TextStyle get titleLarge => Theme.of(this).textTheme.titleLarge!;
   TextStyle get titleSmall => Theme.of(this).textTheme.titleSmall!;
 
+  ThemeData get theme => Theme.of(this);
+
   bool get isDarkMode =>
       ProviderScope.containerOf(this, listen: false).read(settingsProvider) ==
       ThemeMode.dark;
