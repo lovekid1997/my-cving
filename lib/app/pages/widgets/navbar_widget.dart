@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+<<<<<<< HEAD
 import 'package:my_cving/app/utils/context.dart';
 import 'package:my_cving/app/utils/theme.dart';
+=======
+>>>>>>> db71ce9ca3983adf9e22346cc5bc0d72efc7fea3
 import 'package:my_cving/app/utils/widget_utils.dart';
 import 'package:rive/rive.dart';
 
@@ -15,6 +18,7 @@ class NavbarWidget extends StatelessWidget {
     return Column(
       children: [
         Row(
+<<<<<<< HEAD
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
@@ -90,6 +94,14 @@ class _ButtonAnimationState extends State<_ButtonAnimation> {
           duration: kDuration500ml,
           height: height,
         ),
+=======
+          children: const [
+            _Logo(),
+            Text('qweqweqwewqeqweqweqweqwe'),
+          ],
+        ),
+        kDivider,
+>>>>>>> db71ce9ca3983adf9e22346cc5bc0d72efc7fea3
       ],
     );
   }
@@ -144,6 +156,7 @@ class _LogoState extends State<_Logo> {
     if (_riveArtboard == null) {
       return const SizedBox.shrink();
     }
+<<<<<<< HEAD
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed('/');
@@ -158,6 +171,23 @@ class _LogoState extends State<_Logo> {
           child: Rive(
             artboard: _riveArtboard!,
             fit: BoxFit.cover,
+=======
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed('/');
+          },
+          child: MouseRegion(
+            onHover: (_) {
+              _jumpInput?.value = true;
+              _walkInput?.value = !(_walkInput?.value ?? false);
+            },
+            child: SizedBox.square(
+              dimension: 80,
+              child: Rive(artboard: _riveArtboard!),
+            ),
+>>>>>>> db71ce9ca3983adf9e22346cc5bc0d72efc7fea3
           ),
         ),
       ),
