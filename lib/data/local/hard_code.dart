@@ -20,7 +20,15 @@ Quận 12, Ho Chi Minh City, Vietnam''',
   ),
   Navbar(
     'Dự án',
-    [],
+    [
+       SubNavbar(
+        title: 'Dự án cá nhân',
+        subTitle: '''My cv - link: mycving.com
+Mmenu - link: 
+Palazzo - link: ''',
+        icon: Icons.person,
+      ),
+    ],
   ),
   Navbar(
     'CV',

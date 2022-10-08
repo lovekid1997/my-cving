@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/config.dart';
-import 'package:my_cving/app/pages/widgets/navbar_widget.dart';
+import 'package:my_cving/app/pages/home/home_page.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/settings/theme_providers.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -40,24 +40,3 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, ref) {
-    return Scaffold(
-      body: Column(
-        children: const [
-          NavbarWidget(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref.read(settingsProvider.notifier).toggleThemeMode();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.swipe),
-      ),
-    );
-  }
-}
