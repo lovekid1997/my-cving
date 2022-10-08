@@ -5,7 +5,7 @@ final settingsProvider = StateNotifierProvider<SettingsProvider, ThemeMode>(
     (_) => SettingsProvider());
 
 class SettingsProvider extends StateNotifier<ThemeMode> {
-  SettingsProvider() : super(ThemeMode.system);
+  SettingsProvider() : super(ThemeMode.dark);
 
   ThemeMode get themeMode => state;
 

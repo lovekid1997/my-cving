@@ -61,6 +61,7 @@ ThemeData _buildLightTheme() {
         ),
       ),
     ),
+    iconTheme: const IconThemeData(color: Color(0xff1A1A1A)),
   );
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),

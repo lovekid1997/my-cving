@@ -56,7 +56,7 @@ class MyHomePage extends ConsumerWidget {
           ref.read(settingsProvider.notifier).toggleThemeMode();
         },
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.swipe),
       ),
     );
   }

@@ -240,47 +240,57 @@ class _AnimationSubButtonNavbarState extends State<_AnimationSubButtonNavbar> {
   Color subTitleColor = cTextDark;
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onHover: highlightColor,
-      onExit: offHightLightColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: k4,
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: MouseRegion(
+        onHover: highlightColor,
+        onExit: offHightLightColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: k4,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.person,
+                    color: titleColor,
+                  ),
+                  kWidth4,
+                  Text(
+                    'Hồ sơ',
+                    style: context.titleLarge.copyWith(color: titleColor),
+                  ),
+                ],
+              ),
             ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  color: titleColor,
-                ),
-                Text(
-                  'Hồ sơ',
-                  style: context.titleLarge.copyWith(color: titleColor),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            '''Vinh Nguyễn Thế
+            Text(
+              '''Vinh Nguyễn Thế
 Flutter developer at Mmenu
 Quận 12, Ho Chi Minh City, Vietnam''',
-            style: context.titleSmall.copyWith(color: subTitleColor),
-          ),
-        ],
+              style: context.titleSmall.copyWith(color: subTitleColor),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void highlightColor(_) {
-    titleColor = cTextLightDark;
+    if (subTitleColor == cTextNormalDark) {
+      return;
+    }
+    titleColor = context.isDarkMode ? cTextLightDark : null;
     subTitleColor = cTextNormalDark;
     setState(() {});
   }
 
   void offHightLightColor(_) {
+    if (subTitleColor == cTextDark) {
+      return;
+    }
     titleColor = null;
     subTitleColor = cTextDark;
     setState(() {});
