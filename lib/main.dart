@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/config.dart';
 import 'package:my_cving/app/pages/home/home_page.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/settings/theme_providers.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,7 @@ class MyApp extends ConsumerWidget {
       builder: (context, child) {
         return ResponsiveWrapper.builder(
           child,
-          defaultScale: true,
+          defaultScale: false,
           minWidth: 480,
           breakpoints: const [
             ResponsiveBreakpoint.resize(480, name: MOBILE),
@@ -31,6 +33,16 @@ class MyApp extends ConsumerWidget {
           ],
         );
       },
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English, no country code
+        Locale('vi', ''), // Vietname, no country code
+      ],
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,
@@ -39,4 +51,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
