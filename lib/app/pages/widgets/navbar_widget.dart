@@ -87,7 +87,7 @@ class _ButtonAnimationState extends State<_ButtonAnimation> {
           ),
         ),
         AnimatedContainer(
-          duration: kDuration,
+          duration: kDuration500ml,
           height: height,
         ),
       ],
