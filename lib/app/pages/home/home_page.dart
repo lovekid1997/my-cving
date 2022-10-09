@@ -7,9 +7,10 @@ import 'package:my_cving/app/settings/localizations_provider.dart';
 import 'package:my_cving/app/settings/theme_providers.dart';
 import 'package:my_cving/app/utils/context.dart';
 
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key});
-
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
+  static const String path = '/';
+  static const String secondPath = '/home';
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
