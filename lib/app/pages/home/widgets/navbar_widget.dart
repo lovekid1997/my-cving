@@ -17,10 +17,12 @@ class NavbarWidget extends StatefulWidget {
 }
 
 class _NavbarWidgetState extends State<NavbarWidget> {
-  // animation state
-  double _heightExpand = 0;
-  double _opacity = 0;
   final double _imageSize = 100;
+  final double _heightExpand = 120;
+
+  // animation state
+  double _heightExpandState = 0;
+  double _opacityState = 0;
 
   // selected state
   int? _selected;
@@ -68,10 +70,10 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                     ),
                     AnimatedContainer(
                       duration: kDuration300ml,
-                      height: _heightExpand,
+                      height: _heightExpandState,
                       child: AnimatedOpacity(
                         duration: kDuration300ml,
-                        opacity: _opacity,
+                        opacity: _opacityState,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           padding: EdgeInsets.zero,
@@ -118,7 +120,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
   bool isSelected(int index) => index == _selected;
 
   void onExpand(int index) {
-    if (_opacity > 0 && _selected == index) {
+    if (_opacityState > 0 && _selected == index) {
       return;
     }
     if (_data[index].navbarSubEntities.isEmpty) {
@@ -126,15 +128,15 @@ class _NavbarWidgetState extends State<NavbarWidget> {
       return;
     }
     _selected = index;
-    _heightExpand = 120;
-    _opacity = 1;
+    _heightExpandState = _heightExpand;
+    _opacityState = 1;
     setState(() {});
   }
 
   void onClose() {
     _selected = null;
-    _heightExpand = 0;
-    _opacity = 0;
+    _heightExpandState = 0;
+    _opacityState = 0;
     setState(() {});
   }
 }
