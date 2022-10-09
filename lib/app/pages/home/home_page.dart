@@ -10,7 +10,7 @@ import 'package:my_cving/app/utils/context.dart';
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
   static const String path = '/';
-  static const String secondPath = '/home';
+  static const String name = 'home';
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(

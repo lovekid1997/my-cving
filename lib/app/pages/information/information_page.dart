@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class InformationPage extends StatelessWidget {
   const InformationPage({super.key});
 
-  static const String path = '/information';
+  static const String name = 'information';
+
+  static const String path = 'information';
 
   @override
   Widget build(BuildContext context) {
