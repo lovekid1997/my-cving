@@ -1,7 +1,11 @@
 {
-    "change" : "change",
+    "changeTheme" : "change theme",
     "@change" : {
       "description" : "Thay đổi theme"
+    },
+    "changeLocalization" : "change localizations",
+    "@changeLocalization" : {
+      "description" : "Thay đổi ngôn ngữ"
     },
     "introduce": "Giới thiệu",
     "project": "Dự án",

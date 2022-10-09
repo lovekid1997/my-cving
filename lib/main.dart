@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/config.dart';
 import 'package:my_cving/app/pages/home/home_page.dart';
 import 'package:my_cving/app/utils/theme.dart';
-import 'package:my_cving/settings/theme_providers.dart';
+import 'package:my_cving/app/settings/theme_providers.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
