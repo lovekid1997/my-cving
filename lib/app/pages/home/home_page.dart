@@ -13,10 +13,11 @@ class MyHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Scaffold(
-      body: Column(
+      body: Stack(
+        fit: StackFit.expand,
         children: const [
-          NavbarWidget(),
           HomeBodyWidget(),
+          NavbarWidget(),
         ],
       ),
       floatingActionButton: Row(

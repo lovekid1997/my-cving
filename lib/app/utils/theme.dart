@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 // colors
 const cDark = Color(0xff1D1D1D);
+const cLightDark = Color(0xff212121);
 const cWhite = Color(0xffFFFFFF);
 const cDividerDark = Color(0xff2C2C2C);
 const cDividerLight = Color.fromARGB(255, 210, 200, 200);

@@ -5,7 +5,8 @@ class HomeBodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Positioned.fill(
+      top: 150,
       child: ListView(
         children: [
           ...List.generate(

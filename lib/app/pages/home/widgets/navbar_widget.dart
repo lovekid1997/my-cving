@@ -18,113 +18,123 @@ class NavbarWidget extends StatefulWidget {
 
 class _NavbarWidgetState extends State<NavbarWidget> {
   // animation state
-  double heightExpand = 0;
-  double opacity = 0;
-  final double imageSize = 100;
+  double _heightExpand = 0;
+  double _opacity = 0;
+  final double _imageSize = 100;
 
   // selected state
-  int? selected;
+  int? _selected;
 
   // data
-  late List<Navbar> data;
+  late List<Navbar> _data;
 
   @override
   Widget build(BuildContext context) {
-    data = HardCodeData.navBarData(context);
-    return MouseRegion(
-      onExit: (_) => onClose(),
-      child: Column(
-        children: [
-          IntrinsicWidth(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    _data = HardCodeData.navBarData(context);
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        color: cDark,
+        child: MouseRegion(
+          onExit: (_) => onClose(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IntrinsicWidth(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    _Logo(imageSize: imageSize),
-                    ...data
-                        .asMap()
-                        .map((index, e) => MapEntry(
-                            index,
-                            _AnimationButtonNavbar(
-                              title: e.title,
-                              onHover: () => onExpand(index),
-                              isSelected: isSelected(index),
-                              isShowExpandButton:
-                                  e.navbarSubEntities.isNotEmpty,
-                            )))
-                        .values
-                        .toList(),
-                  ],
-                ),
-                AnimatedContainer(
-                  duration: kDuration300ml,
-                  height: heightExpand,
-                  child: AnimatedOpacity(
-                    duration: kDuration300ml,
-                    opacity: opacity,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.zero,
-                      child: Column(
-                        children: [
-                          kDivider,
-                          kHeight4,
-                          AnimatedSwitcher(
-                            duration: kDuration300ml,
-                            child: Row(
-                              key: ValueKey(selected),
-                              children: [
-                                if (selected == null)
-                                  const SizedBox.shrink()
-                                else
-                                  ...data[selected!]
-                                      .navbarSubEntities
-                                      .map(
-                                        (e) => _AnimationSubButtonNavbar(
-                                          onTap: () {},
-                                          subNavbar: e,
-                                        ),
-                                      )
-                                      .toList(),
-                              ],
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _Logo(imageSize: _imageSize),
+                        ..._data
+                            .asMap()
+                            .map((index, e) => MapEntry(
+                                index,
+                                _AnimationButtonNavbar(
+                                  title: e.title,
+                                  onHover: () => onExpand(index),
+                                  isSelected: isSelected(index),
+                                  isShowExpandButton:
+                                      e.navbarSubEntities.isNotEmpty,
+                                )))
+                            .values
+                            .toList(),
+                      ],
+                    ),
+                    AnimatedContainer(
+                      duration: kDuration300ml,
+                      height: _heightExpand,
+                      child: AnimatedOpacity(
+                        duration: kDuration300ml,
+                        opacity: _opacity,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          padding: EdgeInsets.zero,
+                          child: Column(
+                            children: [
+                              kDivider,
+                              kHeight4,
+                              AnimatedSwitcher(
+                                duration: kDuration300ml,
+                                child: Row(
+                                  key: ValueKey(_selected),
+                                  children: [
+                                    if (_selected == null)
+                                      const SizedBox.shrink()
+                                    else
+                                      ..._data[_selected!]
+                                          .navbarSubEntities
+                                          .map(
+                                            (e) => _AnimationSubButtonNavbar(
+                                              onTap: () {},
+                                              subNavbar: e,
+                                            ),
+                                          )
+                                          .toList(),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              kDivider,
+            ],
           ),
-          kDivider,
-        ],
+        ),
       ),
     );
   }
 
-  bool isSelected(int index) => index == selected;
+  bool isSelected(int index) => index == _selected;
 
   void onExpand(int index) {
-    if (opacity > 0 && selected == index) {
+    if (_opacity > 0 && _selected == index) {
       return;
     }
-    if (data[index].navbarSubEntities.isEmpty) {
+    if (_data[index].navbarSubEntities.isEmpty) {
       onClose();
       return;
     }
-    selected = index;
-    heightExpand = 120;
-    opacity = 1;
+    _selected = index;
+    _heightExpand = 120;
+    _opacity = 1;
     setState(() {});
   }
 
   void onClose() {
-    selected = null;
-    heightExpand = 0;
-    opacity = 0;
+    _selected = null;
+    _heightExpand = 0;
+    _opacity = 0;
     setState(() {});
   }
 }
