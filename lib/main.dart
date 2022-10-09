@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/config.dart';
 import 'package:my_cving/app/pages/home/home_page.dart';
+import 'package:my_cving/app/settings/localizations_provider.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/app/settings/theme_providers.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -19,6 +20,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final themeMode = ref.watch(themesProvider);
+    final locale = ref.watch(localizationsProvider);
     return MaterialApp(
       builder: (context, child) {
         return ResponsiveWrapper.builder(
@@ -34,7 +36,7 @@ class MyApp extends ConsumerWidget {
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('vi'),
+      locale: locale,
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,
