@@ -37,10 +37,11 @@ class _NavbarWidgetState extends State<NavbarWidget> {
       top: 0,
       left: 0,
       right: 0,
-      child: Container(
-        color: cDark,
+      child: AnimatedContainer(
+        duration: kDuration300ml,
+        decoration: boxDecorationExpandWidget,
         child: MouseRegion(
-          onExit: (_) => onClose(),
+          onExit: (_) => _onClose(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -59,8 +60,8 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                 index,
                                 _AnimationButtonNavbar(
                                   title: e.title,
-                                  onHover: () => onExpand(index),
-                                  isSelected: isSelected(index),
+                                  onHover: () => _onExpand(index),
+                                  isSelected: _isSelected(index),
                                   isShowExpandButton:
                                       e.navbarSubEntities.isNotEmpty,
                                 )))
@@ -117,14 +118,29 @@ class _NavbarWidgetState extends State<NavbarWidget> {
     );
   }
 
-  bool isSelected(int index) => index == _selected;
+  bool get _isExpand => _heightExpandState == _heightExpand;
+  BoxDecoration get boxDecorationExpandWidget => BoxDecoration(
+        color: cDark,
+        boxShadow: _isExpand
+            ? [
+                const BoxShadow(
+                  color: Color(0xff141414),
+                  offset: Offset(0, 20),
+                  blurRadius: 40,
+                  spreadRadius: 20,
+                )
+              ]
+            : null,
+      );
 
-  void onExpand(int index) {
+  bool _isSelected(int index) => index == _selected;
+
+  void _onExpand(int index) {
     if (_opacityState > 0 && _selected == index) {
       return;
     }
     if (_data[index].navbarSubEntities.isEmpty) {
-      onClose();
+      _onClose();
       return;
     }
     _selected = index;
@@ -133,7 +149,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
     setState(() {});
   }
 
-  void onClose() {
+  void _onClose() {
     _selected = null;
     _heightExpandState = 0;
     _opacityState = 0;
