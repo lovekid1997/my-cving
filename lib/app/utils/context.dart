@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/settings/theme_providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension ContextExtension on BuildContext {
   TextStyle get headline5 => Theme.of(this).textTheme.headline5!;
@@ -12,6 +13,9 @@ extension ContextExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
 
   bool get isDarkMode =>
-      ProviderScope.containerOf(this, listen: false).read(settingsProvider) ==
+      ProviderScope.containerOf(this, listen: false).read(themesProvider) ==
       ThemeMode.dark;
+
+  // localization
+  AppLocalizations get localizations => AppLocalizations.of(this);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/pages/home/widgets/home_body_widget.dart';
 import 'package:my_cving/app/pages/home/widgets/navbar_widget.dart';
+import 'package:my_cving/app/utils/context.dart';
 import 'package:my_cving/settings/theme_providers.dart';
 
 class MyHomePage extends ConsumerWidget {
@@ -16,15 +17,18 @@ class MyHomePage extends ConsumerWidget {
           HomeBodyWidget(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: TextButton(
         onPressed: () {
-          ref.read(settingsProvider.notifier).toggleThemeMode();
+          ref.read(themesProvider.notifier).toggleThemeMode();
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.swipe),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(context.localizations.change),
+            const Icon(Icons.swipe),
+          ],
+        ),
       ),
     );
   }
 }
-
-

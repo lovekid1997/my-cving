@@ -1,6 +1,12 @@
 {
-    "helloWorld": "Hello World!",
-    "@helloWorld": {
-      "description": "The conventional newborn programmer greeting"
-    }
+    "change" : "change",
+    "@change" : {
+      "description" : "Thay đổi theme"
+    },
+    "introduce": "Introduce",
+    "project": "Project",
+    "cv": "CV",
+    "docs": "Document",
+    "games": "Games",
+    "utilities": "Utilities"
 }

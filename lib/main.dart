@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/config.dart';
 import 'package:my_cving/app/pages/home/home_page.dart';
@@ -19,7 +18,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final themeMode = ref.watch(settingsProvider);
+    final themeMode = ref.watch(themesProvider);
     return MaterialApp(
       builder: (context, child) {
         return ResponsiveWrapper.builder(
@@ -33,16 +32,9 @@ class MyApp extends ConsumerWidget {
           ],
         );
       },
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''), // English, no country code
-        Locale('vi', ''), // Vietname, no country code
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('vi'),
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,

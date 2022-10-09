@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_cving/app/constant/constant.dart';
 import 'package:my_cving/app/utils/context.dart';
 import 'package:my_cving/app/utils/theme.dart';
-import 'package:my_cving/app/utils/widget_utils.dart';
 import 'package:my_cving/data/local/hard_code.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
 import 'package:rive/rive.dart';
@@ -25,10 +25,12 @@ class _NavbarWidgetState extends State<NavbarWidget> {
   // selected state
   int? selected;
 
-  final data = HardCodeData.navBarData;
+  // data
+  late List<Navbar> data;
 
   @override
   Widget build(BuildContext context) {
+    data = HardCodeData.navBarData(context);
     return MouseRegion(
       onExit: (_) => onClose(),
       child: Column(
@@ -49,6 +51,8 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                               title: e.title,
                               onHover: () => onExpand(index),
                               isSelected: isSelected(index),
+                              isShowExpandButton:
+                                  e.navbarSubEntities.isNotEmpty,
                             )))
                         .values
                         .toList(),
@@ -107,6 +111,10 @@ class _NavbarWidgetState extends State<NavbarWidget> {
     if (opacity > 0 && selected == index) {
       return;
     }
+    if (data[index].navbarSubEntities.isEmpty) {
+      onClose();
+      return;
+    }
     selected = index;
     heightExpand = 120;
     opacity = 1;
@@ -141,7 +149,7 @@ class _LogoState extends State<_Logo> {
 
   @override
   void initState() {
-    rootBundle.load('assets/logo/spaceman.riv').then(
+    rootBundle.load(ImageAssets.spacemenRiv).then(
       (data) async {
         // Load the RiveFile from the binary data.
         final file = RiveFile.import(data);
@@ -211,11 +219,12 @@ class _AnimationButtonNavbar extends StatelessWidget {
     required this.title,
     required this.onHover,
     required this.isSelected,
+    required this.isShowExpandButton,
   }) : super(key: key);
   final String title;
   final Function() onHover;
   final bool isSelected;
-
+  final bool isShowExpandButton;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -226,9 +235,11 @@ class _AnimationButtonNavbar extends StatelessWidget {
           child: TextButton.icon(
             label: Text(title),
             onPressed: () {},
-            icon: const Icon(
-              Icons.expand_more,
-            ),
+            icon: isShowExpandButton
+                ? const Icon(
+                    Icons.expand_more,
+                  )
+                : const SizedBox.shrink(),
             onHover: (_) => onHover(),
             style: ButtonStyle(
               foregroundColor: foregroundColor(context),
