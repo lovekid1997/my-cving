@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_cving/app/pages/cv/cv_page.dart';
 import 'package:my_cving/app/utils/context.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
 
@@ -10,18 +11,6 @@ List<Navbar> _navBarData(BuildContext context) {
   final localizations = context.localizations;
   return [
     Navbar(
-      localizations.introduce,
-      [
-        SubNavbar(
-          title: 'Hồ sơ',
-          subTitle: '''Vinh Nguyễn Thế
-Flutter developer at Mmenu
-Quận 12, Ho Chi Minh City, Vietnam''',
-          icon: Icons.person,
-        ),
-      ],
-    ),
-    Navbar(
       localizations.project,
       [
         SubNavbar(
@@ -32,22 +21,27 @@ Palazzo - link: ''',
           icon: Icons.person,
         ),
       ],
+      () {},
     ),
     Navbar(
       localizations.cv,
       [],
+      () => CvPage.pushPage(context),
     ),
     Navbar(
       localizations.docs,
       [],
+      () {},
     ),
     Navbar(
       localizations.utilities,
       [],
+      () {},
     ),
     Navbar(
       localizations.games,
       [],
+      () {},
     ),
   ];
 }

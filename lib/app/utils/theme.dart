@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // colors
-const cDark = Color(0xff1D1D1D);
-const cLightDark = Color(0xff212121);
+const cDark = Color(0xFF191923);
 const cWhite = Color(0xffFFFFFF);
 const cDividerDark = Color(0xff2C2C2C);
 const cDividerLight = Color.fromARGB(255, 210, 200, 200);
@@ -13,9 +12,9 @@ const cTransparent = Colors.transparent;
 const cTextLight = Color(0xff717171);
 
 // colors dark text
-const cTextLightDark = Color(0xffF1F1F1);
-const cTextNormalDark = Color(0xff999999);
-const cTextDark = Color(0xff636363);
+const cTextLightDark = Color(0xffFAFAFC);
+const cTextNormalDark = Color(0xff8C8C8E);
+const cTextDark = Color(0xff525258);
 
 ThemeData _buildDarkTheme() {
   final ThemeData base = ThemeData(
@@ -36,6 +35,7 @@ ThemeData _buildDarkTheme() {
       ),
     ),
     iconTheme: const IconThemeData(color: cTextNormalDark),
+
   );
   return base.copyWith(
     textTheme:

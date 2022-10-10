@@ -2,22 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/constant/constant.dart';
+import 'package:my_cving/app/settings/theme_providers.dart';
 import 'package:my_cving/app/utils/context.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/data/local/hard_code.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
 import 'package:rive/rive.dart';
 
-class NavbarWidget extends StatefulWidget {
+class NavbarWidget extends ConsumerStatefulWidget {
   const NavbarWidget({super.key});
 
+  static const double imageSize = 100;
+
   @override
-  State<NavbarWidget> createState() => _NavbarWidgetState();
+  NavbarWidgetState createState() => NavbarWidgetState();
 }
 
-class _NavbarWidgetState extends State<NavbarWidget> {
-  final double _imageSize = 100;
+class NavbarWidgetState extends ConsumerState<NavbarWidget> {
   final double _heightExpand = 120;
 
   // animation state
@@ -32,13 +35,14 @@ class _NavbarWidgetState extends State<NavbarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(themesProvider);
     _data = HardCodeData.navBarData(context);
     return Positioned(
       top: 0,
       left: 0,
       right: 0,
       child: AnimatedContainer(
-        duration: kDuration300ml,
+        duration: kThemeChangeDuration,
         decoration: boxDecorationExpandWidget,
         child: MouseRegion(
           onExit: (_) => _onClose(),
@@ -53,7 +57,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _Logo(imageSize: _imageSize),
+                        _Logo(),
                         ..._data
                             .asMap()
                             .map((index, e) => MapEntry(
@@ -64,6 +68,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                   isSelected: _isSelected(index),
                                   isShowExpandButton:
                                       e.navbarSubEntities.isNotEmpty,
+                                  onTap: e.onEvent,
                                 )))
                             .values
                             .toList(),
@@ -120,13 +125,16 @@ class _NavbarWidgetState extends State<NavbarWidget> {
 
   bool get _isExpand => _heightExpandState == _heightExpand;
   BoxDecoration get boxDecorationExpandWidget => BoxDecoration(
-        color: cDark,
+        color: context.colorBetweenThemeMode(
+          darkModeColor: cDark,
+          lightModeColor: cWhite,
+        ),
         boxShadow: _isExpand
             ? [
                 const BoxShadow(
-                  color: Color(0xff141414),
+                  color: Color(0xFF141414),
                   offset: Offset(0, 20),
-                  blurRadius: 40,
+                  blurRadius: 60,
                   spreadRadius: 20,
                 )
               ]
@@ -158,8 +166,6 @@ class _NavbarWidgetState extends State<NavbarWidget> {
 }
 
 class _Logo extends StatefulWidget {
-  const _Logo({required this.imageSize});
-  final double imageSize;
   @override
   State<_Logo> createState() => _LogoState();
 }
@@ -216,7 +222,7 @@ class _LogoState extends State<_Logo> {
           _walkInput?.value = false;
         },
         child: SizedBox.square(
-          dimension: widget.imageSize,
+          dimension: NavbarWidget.imageSize,
           child: Rive(
             artboard: _riveArtboard!,
             fit: BoxFit.cover,
@@ -248,11 +254,13 @@ class _AnimationButtonNavbar extends StatelessWidget {
     required this.onHover,
     required this.isSelected,
     required this.isShowExpandButton,
+    required this.onTap,
   }) : super(key: key);
   final String title;
   final Function() onHover;
   final bool isSelected;
   final bool isShowExpandButton;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -262,7 +270,7 @@ class _AnimationButtonNavbar extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: TextButton.icon(
             label: Text(title),
-            onPressed: () {},
+            onPressed: onTap,
             icon: isShowExpandButton
                 ? const Icon(
                     Icons.expand_more,

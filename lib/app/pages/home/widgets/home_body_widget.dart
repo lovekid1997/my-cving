@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:my_cving/app/pages/information/information_page.dart';
-import 'package:my_cving/app/pages/settings/settings_page.dart';
+import 'package:my_cving/app/pages/home/widgets/navbar_widget.dart';
 
 class HomeBodyWidget extends StatelessWidget {
   const HomeBodyWidget({super.key});
@@ -9,22 +7,10 @@ class HomeBodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      top: 101,
+      top: NavbarWidget.imageSize + 1,
       child: ListView(
-        children: [
-          TextButton(
-            onPressed: () {
-              context.goNamed(InformationPage.name);
-            },
-            child: const Text('Push information page'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.goNamed(SettingsPage.name);
-            },
-            child: const Text('Push settings page'),
-          ),
-        ],
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        children: const [],
       ),
     );
   }

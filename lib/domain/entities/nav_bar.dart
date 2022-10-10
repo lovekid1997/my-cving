@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class Navbar {
   final String title;
   final List<SubNavbar> navbarSubEntities;
-
-  Navbar(this.title, this.navbarSubEntities);
+  final VoidCallback onEvent;
+  Navbar(this.title, this.navbarSubEntities, this.onEvent);
 }
 
 class SubNavbar {
