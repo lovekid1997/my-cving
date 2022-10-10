@@ -15,6 +15,7 @@ const cTextLight = Color(0xff717171);
 const cTextLightDark = Color(0xffFAFAFC);
 const cTextNormalDark = Color(0xff8C8C8E);
 const cTextDark = Color(0xff525258);
+const cTextOrange = Color(0xffAC5A1A);
 
 ThemeData _buildDarkTheme() {
   final ThemeData base = ThemeData(

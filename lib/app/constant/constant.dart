@@ -11,9 +11,12 @@ const kHeight6 = SizedBox(height: 6);
 const kHeight10 = SizedBox(height: 10);
 const kHeight12 = SizedBox(height: 12);
 const kWidth4 = SizedBox(width: 4);
+const kWidth6 = SizedBox(width: 6);
+const kWidth10 = SizedBox(width: 10);
 const kWidth20 = SizedBox(width: 20);
 const k8 = 8.0;
 const k4 = 4.0;
+const kDuration200ml = Duration(milliseconds: 200);
 const kDuration300ml = Duration(milliseconds: 300);
 const kDuration500ml = Duration(milliseconds: 500);
 

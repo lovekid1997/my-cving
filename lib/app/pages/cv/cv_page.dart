@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_cving/app/constant/constant.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
+import 'package:my_cving/data/local/hard_code.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});
@@ -74,15 +75,111 @@ class _AvatarAndInformation extends StatelessWidget {
               ),
               Text(
                 'A FLUTTER DEVELOPER',
-                style: context.bodyText2.copyWith(color: Color(0xffAC5A1A)),
+                style: context.bodyText2.copyWith(color: cTextOrange),
               ),
             ],
           ),
           kHeight10,
           const Divider(),
-          FaIcon(FontAwesomeIcons.facebook),
+          kHeight10,
+          SizedBox(
+            height: 40,
+            child: ListView.separated(
+              padding: EdgeInsets.zero,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemBuilder: (_, index) => _AnimatedIcon(
+                icon: HardCodeData.iconAnimationData.elementAt(index).icon,
+                hintText:
+                    HardCodeData.iconAnimationData.elementAt(index).hintText,
+              ),
+              separatorBuilder: (_, __) => kWidth10,
+              itemCount: HardCodeData.iconAnimationData.length,
+            ),
+          ),
         ],
       ),
     );
+  }
+}
+
+class _AnimatedIcon extends StatefulWidget {
+  const _AnimatedIcon({
+    Key? key,
+    required this.icon,
+    required this.hintText,
+  }) : super(key: key);
+  final IconData icon;
+  final String hintText;
+  @override
+  State<_AnimatedIcon> createState() => _AnimatedIconState();
+}
+
+class _AnimatedIconState extends State<_AnimatedIcon> {
+  Color bgContainerColorState = cTransparent;
+  Color? bgIconColorState;
+  double animatedPositedState = 0;
+  bool get isHover => bgIconColorState != null;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.center,
+      children: [
+        AnimatedPositioned(
+          top: animatedPositedState,
+          duration: kDuration200ml,
+          child: AnimatedSwitcher(
+            duration: kDuration200ml,
+            child: isHover
+                ? Text(
+                    widget.hintText,
+                    style: context.bodyText2.copyWith(color: cTextLightDark),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+        MouseRegion(
+          onEnter: onEnter,
+          onExit: onExit,
+          child: AnimatedContainer(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: cWhite,
+                width: 0.5,
+              ),
+              shape: BoxShape.circle,
+              color: bgContainerColorState,
+            ),
+            alignment: Alignment.center,
+            duration: kDuration300ml,
+            child: AnimatedSwitcher(
+              duration: kDuration300ml,
+              child: FaIcon(
+                widget.icon,
+                color: bgIconColorState,
+                key: UniqueKey(),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void onEnter(_) {
+    bgContainerColorState = cWhite;
+    bgIconColorState = cDark;
+    animatedPositedState = -25;
+    setState(() {});
+  }
+
+  void onExit(_) {
+    bgContainerColorState = cTransparent;
+    bgIconColorState = null;
+    animatedPositedState = 0;
+    setState(() {});
   }
 }
