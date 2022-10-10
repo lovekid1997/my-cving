@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_cving/app/pages/cv/cv_page.dart';
-import 'package:my_cving/app/utils/context.dart';
+import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
 
 class HardCodeData {

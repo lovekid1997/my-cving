@@ -5,7 +5,7 @@ import 'package:my_cving/app/pages/home/widgets/home_body_widget.dart';
 import 'package:my_cving/app/pages/home/widgets/navbar_widget.dart';
 import 'package:my_cving/app/settings/localizations_provider.dart';
 import 'package:my_cving/app/settings/theme_providers.dart';
-import 'package:my_cving/app/utils/context.dart';
+import 'package:my_cving/app/utils/extensions.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});

@@ -8,6 +8,8 @@ const kDivider = Divider(
 const kHeight2 = SizedBox(height: 2);
 const kHeight4 = SizedBox(height: 4);
 const kHeight6 = SizedBox(height: 6);
+const kHeight10 = SizedBox(height: 10);
+const kHeight12 = SizedBox(height: 12);
 const kWidth4 = SizedBox(width: 4);
 const kWidth20 = SizedBox(width: 20);
 const k8 = 8.0;
@@ -18,4 +20,7 @@ const kDuration500ml = Duration(milliseconds: 500);
 class ImageAssets {
   // riv
   static const String spacemenRiv = 'assets/logo/spaceman.riv';
+
+  // jpg
+  static const String myImage = 'assets/jpg/my_image.jpg';
 }
