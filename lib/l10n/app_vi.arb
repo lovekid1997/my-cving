@@ -12,5 +12,12 @@
     "cv": "CV",
     "docs": "Tài liệu",
     "games": "Trò chơi",
-    "utilities": "Tiện ích"
+    "utilities": "Tiện ích",
+    "commonVehicleType": "{vehicleType, select, sedan{Sedan} cabriolet{Solid roof cabriolet} truck{16 wheel truck} other{Other}}",
+    "@commonVehicleType": {
+    "description": "Vehicle type",
+    "placeholders": {
+        "vehicleType": {}
+    }
+}
 }

@@ -63,7 +63,7 @@ final List<IconAnimation> _iconAnimation = [
     FontAwesomeIcons.githubAlt,
   ),
   IconAnimation(
-    'Github',
+    'Blogs',
     FontAwesomeIcons.wordpress,
   ),
 ];

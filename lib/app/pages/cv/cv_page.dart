@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_cving/app/constant/constant.dart';
+import 'package:my_cving/app/pages/cv/avatar_and_information.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
-import 'package:my_cving/data/local/hard_code.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});
@@ -27,7 +26,9 @@ class CvPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: const [
-                _AvatarAndInformation(),
+                AvatarAndInformation(),
+                kHeight10,
+                SummaryWidget(),
               ],
             ),
           ),
@@ -45,10 +46,8 @@ class CvPage extends StatelessWidget {
   }
 }
 
-class _AvatarAndInformation extends StatelessWidget {
-  const _AvatarAndInformation({
-    Key? key,
-  }) : super(key: key);
+class SummaryWidget extends StatelessWidget {
+  const SummaryWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,126 +59,19 @@ class _AvatarAndInformation extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          SizedBox.square(
-            dimension: 120,
-            child: CircleAvatar(
-              backgroundImage: ImageAssets.myImage.image().image,
-            ),
-          ),
-          kHeight10,
-          Column(
-            children: [
-              Text(
-                'NGUYEN THE VINH',
-                style: context.titleLarge.copyWith(color: cTextLightDark),
-              ),
-              Text(
-                'A FLUTTER DEVELOPER',
-                style: context.bodyText2.copyWith(color: cTextOrange),
-              ),
-            ],
-          ),
-          kHeight10,
-          const Divider(),
-          kHeight10,
-          SizedBox(
-            height: 40,
-            child: ListView.separated(
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemBuilder: (_, index) => _AnimatedIcon(
-                icon: HardCodeData.iconAnimationData.elementAt(index).icon,
-                hintText:
-                    HardCodeData.iconAnimationData.elementAt(index).hintText,
-              ),
-              separatorBuilder: (_, __) => kWidth10,
-              itemCount: HardCodeData.iconAnimationData.length,
-            ),
-          ),
+          Text('Tóm tắt', style: context.bodyText1.copyWith(color: cWhite)),
+          const Text(
+              'Tự học Flutter ở 1 năm cuối đại học (2020) để hoàn thành khóa luận.'),
+          const Text(
+              'Tham gia 1 công ty outsource với vị trí Fresher Flutter Developer trong 6 tháng.'),
+          const Text(
+              'Hiện tại đang tham gia thực hiện 1 dự án Product chuyên về F&B.'),
+          const Text(
+              'Tôi thích giúp đỡ người khác và làm việc tốt với nhóm. Tôi cũng có thể thực hiện một số nhiệm vụ cố vấn và đánh giá mã cho các thành viên khác'),
+          const Text(
+              'Những cuốn sách yêu thích của tôi là: Dive Into DESIGN PATTERNS.'),
         ],
       ),
     );
-  }
-}
-
-class _AnimatedIcon extends StatefulWidget {
-  const _AnimatedIcon({
-    Key? key,
-    required this.icon,
-    required this.hintText,
-  }) : super(key: key);
-  final IconData icon;
-  final String hintText;
-  @override
-  State<_AnimatedIcon> createState() => _AnimatedIconState();
-}
-
-class _AnimatedIconState extends State<_AnimatedIcon> {
-  Color bgContainerColorState = cTransparent;
-  Color? bgIconColorState;
-  double animatedPositedState = 0;
-  bool get isHover => bgIconColorState != null;
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        AnimatedPositioned(
-          top: animatedPositedState,
-          duration: kDuration200ml,
-          child: AnimatedSwitcher(
-            duration: kDuration200ml,
-            child: isHover
-                ? Text(
-                    widget.hintText,
-                    style: context.bodyText2.copyWith(color: cTextLightDark),
-                  )
-                : const SizedBox.shrink(),
-          ),
-        ),
-        MouseRegion(
-          onEnter: onEnter,
-          onExit: onExit,
-          child: AnimatedContainer(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: cWhite,
-                width: 0.5,
-              ),
-              shape: BoxShape.circle,
-              color: bgContainerColorState,
-            ),
-            alignment: Alignment.center,
-            duration: kDuration300ml,
-            child: AnimatedSwitcher(
-              duration: kDuration300ml,
-              child: FaIcon(
-                widget.icon,
-                color: bgIconColorState,
-                key: UniqueKey(),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void onEnter(_) {
-    bgContainerColorState = cWhite;
-    bgIconColorState = cDark;
-    animatedPositedState = -25;
-    setState(() {});
-  }
-
-  void onExit(_) {
-    bgContainerColorState = cTransparent;
-    bgIconColorState = null;
-    animatedPositedState = 0;
-    setState(() {});
   }
 }
