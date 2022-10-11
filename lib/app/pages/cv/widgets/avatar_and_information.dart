@@ -15,7 +15,7 @@ class AvatarAndInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xff252531),
+        color: cDarkBlue,
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -24,7 +24,7 @@ class AvatarAndInformation extends StatelessWidget {
           Column(
             children: [
               SizedBox.square(
-                dimension: 120,
+                dimension: 100,
                 child: CircleAvatar(
                   backgroundImage: ImageAssets.myImage.image().image,
                 ),

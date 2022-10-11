@@ -42,6 +42,7 @@ extension StringExtension on String {
 extension ContextExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
 
+  TextStyle get headline4 => theme.textTheme.headline4!;
   TextStyle get headline5 => theme.textTheme.headline5!;
   TextStyle get headline6 => theme.textTheme.headline6!;
   TextStyle get headlineSmall => theme.textTheme.headlineSmall!;

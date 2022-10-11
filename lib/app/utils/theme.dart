@@ -7,7 +7,7 @@ const cWhite = Color(0xffFFFFFF);
 const cDividerDark = Color(0xff2C2C2C);
 const cDividerLight = Color.fromARGB(255, 210, 200, 200);
 const cTransparent = Colors.transparent;
-
+const cDarkBlue = Color(0xff252531);
 // colors text
 const cTextLight = Color(0xff717171);
 
