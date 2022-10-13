@@ -11,54 +11,134 @@ class ExperienceBasic extends StatelessWidget {
     return Row(
       children: const [
         _AnimationItemWidget(
-          title: '1,5+',
+          titleAsDouble: 1.5,
           subTitle: 'Years Experience',
+          symbol: '+',
         ),
         kWidth10,
         _AnimationItemWidget(
-          title: '4+',
+          titleAsDouble: 4.0,
           subTitle: 'Project',
+          symbol: '+',
         ),
         kWidth10,
         _AnimationItemWidget(
-          title: '2',
+          titleAsDouble: 2.0,
           subTitle: 'Customers',
+          symbol: '',
         ),
       ],
     );
   }
 }
 
-class _AnimationItemWidget extends StatelessWidget {
+class _AnimationItemWidget extends StatefulWidget {
   const _AnimationItemWidget({
     Key? key,
-    required this.title,
+    required this.titleAsDouble,
     required this.subTitle,
+    required this.symbol,
   }) : super(key: key);
-  final String title;
+  final double titleAsDouble;
   final String subTitle;
+  final String symbol;
+  @override
+  State<_AnimationItemWidget> createState() => _AnimationItemWidgetState();
+}
+
+class _AnimationItemWidgetState extends State<_AnimationItemWidget>
+    with TickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation animation;
+
+  late AnimationController boucingController;
+  late Animation<double> bouncingAnimation;
+  @override
+  void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      duration: kDuration1Seconds,
+    );
+    animation = Tween<double>(begin: 0, end: widget.titleAsDouble).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.decelerate));
+    animationController.forward();
+
+    boucingController = AnimationController(
+      vsync: this,
+      duration: kDuration200ml,
+    );
+    bouncingAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.1,
+    ).animate(
+      CurvedAnimation(
+        parent: boucingController,
+        curve: Curves.easeInOut,
+      ),
+    );
+    bouncingAnimation.addListener(() {
+      setState(() {});
+    });
+    bouncingAnimation.addStatusListener((status) {
+      switch (status) {
+        case AnimationStatus.dismissed:
+          break;
+        case AnimationStatus.forward:
+          break;
+        case AnimationStatus.reverse:
+          break;
+        case AnimationStatus.completed:
+          boucingController.reverse();
+          break;
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    boucingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: cDarkBlue,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.fromLTRB(k10, k4, 0, k4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: context.headline4,
+      child: MouseRegion(
+        onEnter: onEnter,
+        child: ScaleTransition(
+          scale: bouncingAnimation,
+          child: Container(
+            decoration: BoxDecoration(
+              color: cDarkBlue,
+              borderRadius: BorderRadius.circular(8),
             ),
-            Text(
-              subTitle,
+            padding: const EdgeInsets.fromLTRB(k10, k4, 0, k4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AnimatedBuilder(
+                  animation: animationController,
+                  builder: (context, child) {
+                    return Text(
+                      '${animation.value.toStringAsFixed(1)}${widget.symbol}',
+                      style: context.headline4.copyWith(color: cTextOrange),
+                    );
+                  },
+                ),
+                Text(
+                  widget.subTitle,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  void onEnter(_) {
+    boucingController.forward();
   }
 }

@@ -20,6 +20,7 @@ const k10 = 10.0;
 const kDuration200ml = Duration(milliseconds: 200);
 const kDuration300ml = Duration(milliseconds: 300);
 const kDuration500ml = Duration(milliseconds: 500);
+const kDuration1Seconds = Duration(seconds: 1);
 
 class ImageAssets {
   // riv
