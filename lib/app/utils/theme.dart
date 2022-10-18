@@ -36,7 +36,6 @@ ThemeData _buildDarkTheme() {
       ),
     ),
     iconTheme: const IconThemeData(color: cTextNormalDark),
-
   );
   return base.copyWith(
     textTheme:

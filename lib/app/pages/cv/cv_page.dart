@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_cving/app/constant/constant.dart';
 import 'package:my_cving/app/pages/cv/widgets/avatar_and_information.dart';
 import 'package:my_cving/app/pages/cv/widgets/experience_basic.dart';
+import 'package:my_cving/app/pages/cv/widgets/information_basic.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
 
@@ -31,7 +32,8 @@ class CvPage extends StatelessWidget {
                 kHeight10,
                 ExperienceBasic(),
                 kHeight10,
-                SummaryWidget(),
+                // SummaryWidget(),
+                InformationBasic(),
               ],
             ),
           ),
