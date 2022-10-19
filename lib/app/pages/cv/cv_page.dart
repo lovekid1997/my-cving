@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_cving/app/constant/constant.dart';
+import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/pages/cv/widgets/avatar_and_information.dart';
 import 'package:my_cving/app/pages/cv/widgets/experience_basic.dart';
 import 'package:my_cving/app/pages/cv/widgets/information_basic.dart';

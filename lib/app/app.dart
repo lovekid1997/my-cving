@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/routes/routes.dart';
-import 'package:my_cving/app/settings/localizations_provider.dart';
-import 'package:my_cving/app/settings/theme_providers.dart';
+import 'package:my_cving/app/services/localizations_provider.dart';
+import 'package:my_cving/app/services/theme_providers.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 

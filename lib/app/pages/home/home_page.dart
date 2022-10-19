@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/pages/home/widgets/home_body_widget.dart';
 import 'package:my_cving/app/pages/home/widgets/navbar_widget.dart';
-import 'package:my_cving/app/settings/localizations_provider.dart';
-import 'package:my_cving/app/settings/theme_providers.dart';
+import 'package:my_cving/app/services/localizations_provider.dart';
+import 'package:my_cving/app/services/theme_providers.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 
 class HomePage extends ConsumerWidget {

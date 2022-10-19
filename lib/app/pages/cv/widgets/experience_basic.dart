@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_cving/app/constant/constant.dart';
+import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
 
