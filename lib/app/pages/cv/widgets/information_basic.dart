@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_cving/app/config/constant.dart';
+import 'package:my_cving/app/services/url_launcher.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
 
@@ -25,18 +26,29 @@ class InformationBasic extends StatelessWidget {
           icon: FontAwesomeIcons.phone,
         ),
         kHeight8,
-        const _Item(
+        _Item(
           title: 'nguyenthevinh297@gmail.com',
           icon: FontAwesomeIcons.envelope,
           isOpenLink: true,
+          onTap: openMail,
         ),
         kHeight8,
-        const _Item(
+        _Item(
           title: 'http://localhost:3000.com.vn',
           icon: FontAwesomeIcons.earthAsia,
+          onTap: openMyBrowser,
+          isOpenLink: true,
         ),
       ],
     );
+  }
+
+  Future<void> openMyBrowser() async {
+    await UrlLauncher().launchUrlNewTab('http://localhost:3000');
+  }
+
+  Future<void> openMail() async {
+    await UrlLauncher().launchMail('nguyenthevinh297@gmail.com');
   }
 }
 
@@ -46,10 +58,14 @@ class _Item extends StatefulWidget {
     required this.title,
     required this.icon,
     this.isOpenLink = false,
+    this.onTap,
   }) : super(key: key);
+
   final String title;
   final IconData icon;
   final bool isOpenLink;
+  final Function()? onTap;
+
   @override
   State<_Item> createState() => _ItemState();
 }
@@ -148,11 +164,14 @@ class _ItemState extends State<_Item> with TickerProviderStateMixin {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  widget.title,
-                  style: widget.isOpenLink
-                      ? context.bodyText2.copyWith(color: colorText)
-                      : null,
+                GestureDetector(
+                  onTap: () => widget.onTap?.call(),
+                  child: Text(
+                    widget.title,
+                    style: widget.isOpenLink
+                        ? context.bodyText2.copyWith(color: colorText)
+                        : null,
+                  ),
                 ),
                 if (widget.isOpenLink)
                   AnimatedContainer(
