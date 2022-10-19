@@ -6,6 +6,8 @@ import 'package:my_cving/app/pages/cv/widgets/experience_basic.dart';
 import 'package:my_cving/app/pages/cv/widgets/information_basic.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
+import 'package:my_cving/app/widgets/divider.dart';
+import 'package:url_launcher/link.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});
@@ -25,15 +27,21 @@ class CvPage extends StatelessWidget {
             width: 420,
             padding: const EdgeInsets.all(20),
             color: const Color(0xff20212A),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: ListView(
               children: const [
                 AvatarAndInformation(),
                 kHeight10,
                 ExperienceBasic(),
-                kHeight10,
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: k14),
+                  child: InformationBasic(),
+                ),
+                DividerCommon(
+                  indent: 20,
+                  endIndent: 20,
+                ),
+
                 // SummaryWidget(),
-                InformationBasic(),
               ],
             ),
           ),

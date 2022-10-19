@@ -6,40 +6,52 @@ import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/services/url_launcher.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
+import 'package:url_launcher/link.dart';
 
 class InformationBasic extends StatelessWidget {
   const InformationBasic({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Thông tin liên hệ',
-            style: context.bodyText1.copyWith(color: cTextLightDark)),
-        const _Item(
-          title: 'Quận 12, TPHCM',
-          icon: FontAwesomeIcons.locationDot,
-        ),
-        kHeight8,
-        const _Item(
-          title: '0902 646 558',
-          icon: FontAwesomeIcons.phone,
-        ),
-        kHeight8,
-        _Item(
-          title: 'nguyenthevinh297@gmail.com',
-          icon: FontAwesomeIcons.envelope,
-          isOpenLink: true,
-          onTap: openMail,
-        ),
-        kHeight8,
-        _Item(
-          title: 'http://localhost:3000.com.vn',
-          icon: FontAwesomeIcons.earthAsia,
-          onTap: openMyBrowser,
-          isOpenLink: true,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k12),
+      child: Column(
+        children: [
+          const _Item(
+            content: '29/09/1997',
+            icon: FontAwesomeIcons.cakeCandles,
+            title: 'Ngày sinh',
+          ),
+          kHeight10,
+          const _Item(
+            content: 'Quận 12, TPHCM',
+            icon: FontAwesomeIcons.locationDot,
+            title: 'Địa chỉ',
+          ),
+          kHeight10,
+          const _Item(
+            content: '0902 646 558',
+            icon: FontAwesomeIcons.phone,
+            title: 'SĐT',
+          ),
+          kHeight10,
+          _Item(
+            content: 'nguyenthevinh297@gmail.com',
+            icon: FontAwesomeIcons.envelope,
+            onTap: openMail,
+            title: 'Email',
+            isMail: true,
+          ),
+          kHeight10,
+          _Item(
+            content: 'http://localhost:3000',
+            icon: FontAwesomeIcons.earthAsia,
+            onTap: openMyBrowser,
+            isOpenLink: true,
+            title: 'Website',
+          ),
+        ],
+      ),
     );
   }
 
@@ -55,16 +67,20 @@ class InformationBasic extends StatelessWidget {
 class _Item extends StatefulWidget {
   const _Item({
     Key? key,
-    required this.title,
+    required this.content,
     required this.icon,
     this.isOpenLink = false,
     this.onTap,
+    required this.title,
+    this.isMail = false,
   }) : super(key: key);
 
-  final String title;
+  final String content;
   final IconData icon;
   final bool isOpenLink;
   final Function()? onTap;
+  final String title;
+  final bool isMail;
 
   @override
   State<_Item> createState() => _ItemState();
@@ -142,36 +158,38 @@ class _ItemState extends State<_Item> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        animatinController.forward();
-        colorText = cWhite;
-      },
-      onExit: (_) {
-        colorText = null;
-      },
+    final itemWidget = GestureDetector(
+      onTap: () => widget.onTap?.call(),
+      behavior: HitTestBehavior.translucent,
       child: Row(
         children: [
-          Transform.rotate(
-            angle: angle,
-            child: FaIcon(
-              widget.icon,
-              color: colorAnimation.value,
+          SizedBox.square(
+            dimension: 22,
+            child: Center(
+              child: Transform.rotate(
+                angle: angle,
+                child: FaIcon(
+                  widget.icon,
+                  color: colorAnimation.value,
+                  size: 20,
+                ),
+              ),
             ),
           ),
-          kWidth10,
+          kWidth6,
+          Text('${widget.title}: ',
+              style: context.bodyText2.copyWith(color: colorText)),
+          const Spacer(),
           IntrinsicWidth(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                GestureDetector(
-                  onTap: () => widget.onTap?.call(),
-                  child: Text(
-                    widget.title,
-                    style: widget.isOpenLink
-                        ? context.bodyText2.copyWith(color: colorText)
-                        : null,
-                  ),
+                Text(
+                  widget.content,
+                  style: context.bodyText2.copyWith(color: colorText),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
                 ),
                 if (widget.isOpenLink)
                   AnimatedContainer(
@@ -185,5 +203,36 @@ class _ItemState extends State<_Item> with TickerProviderStateMixin {
         ],
       ),
     );
+
+    Widget? child;
+
+    if (widget.isOpenLink) {
+      child ??= Link(
+        uri: Uri.parse(widget.content),
+        builder: (_, __) {
+          return itemWidget;
+        },
+      );
+    }
+    return MouseRegion(
+      onEnter: (_) {
+        animatinController.forward();
+        changeColorOnEnter();
+      },
+      onExit: (_) {
+        changeColorOnExit();
+      },
+      child: child ?? itemWidget,
+    );
+  }
+
+  void changeColorOnEnter() {
+    if (widget.isOpenLink || widget.isMail) {
+      colorText = cWhite;
+    }
+  }
+
+  void changeColorOnExit() {
+    colorText = null;
   }
 }

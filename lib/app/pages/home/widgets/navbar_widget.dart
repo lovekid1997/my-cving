@@ -7,6 +7,7 @@ import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/services/theme_providers.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
+import 'package:my_cving/app/widgets/divider.dart';
 import 'package:my_cving/data/local/hard_code.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
 import 'package:rive/rive.dart';
