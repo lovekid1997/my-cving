@@ -14,27 +14,33 @@ class InformationBasic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k12),
+      padding: const EdgeInsets.all(k12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'Thông tin cơ bản',
+            style: context.headline6.copyWith(color: cTextOrange),
+          ),
+          kHeight8,
           const _Item(
             content: '29/09/1997',
             icon: FontAwesomeIcons.cakeCandles,
             title: 'Ngày sinh',
           ),
-          kHeight10,
+          kHeight8,
           const _Item(
             content: 'Quận 12, TPHCM',
             icon: FontAwesomeIcons.locationDot,
             title: 'Địa chỉ',
           ),
-          kHeight10,
+          kHeight8,
           const _Item(
             content: '0902 646 558',
             icon: FontAwesomeIcons.phone,
             title: 'SĐT',
           ),
-          kHeight10,
+          kHeight8,
           _Item(
             content: 'nguyenthevinh297@gmail.com',
             icon: FontAwesomeIcons.envelope,
@@ -42,7 +48,7 @@ class InformationBasic extends StatelessWidget {
             title: 'Email',
             isMail: true,
           ),
-          kHeight10,
+          kHeight8,
           _Item(
             content: 'http://localhost:3000',
             icon: FontAwesomeIcons.earthAsia,
