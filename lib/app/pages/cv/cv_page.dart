@@ -7,7 +7,6 @@ import 'package:my_cving/app/pages/cv/widgets/information_basic.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/app/widgets/divider.dart';
-import 'package:url_launcher/link.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});

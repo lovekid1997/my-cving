@@ -4,8 +4,9 @@ import 'package:my_cving/app/app.dart';
 import 'package:my_cving/app/config/config.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setupHive();
   setupFont();
   setPathUrlStrategy();
   runApp(const ProviderScope(child: MyApp()));
