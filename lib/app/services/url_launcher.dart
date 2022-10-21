@@ -2,9 +2,11 @@ import 'package:my_cving/app/services/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLauncher {
-  static final _instance = UrlLauncher._internal();
+  final Uri base;
 
-  UrlLauncher._internal();
+  static final _instance = UrlLauncher._internal(Uri.base);
+
+  UrlLauncher._internal(this.base);
 
   factory UrlLauncher() {
     return _instance;
@@ -12,6 +14,7 @@ class UrlLauncher {
 
   Future<void> launchUrlNewTab(String url) async {
     try {
+      Uri.base;
       final uri = Uri.parse(url);
       await launchUrl(uri);
     } catch (e) {

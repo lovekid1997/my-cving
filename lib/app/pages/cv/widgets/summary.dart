@@ -34,12 +34,11 @@ class _SummaryWidgetState extends State<SummaryWidget> {
               child: const Text(
                 '''
 Tự học Flutter ở năm cuối đại học (2020).
-Tham gia công ty outsource với vị trí Fresher trong 6 tháng.
+Tham gia công ty outsource trong 6 tháng.
 Hiện tại đang tham gia thực hiện 1 dự án Product chuyên về F&B.
 Tôi thích giúp đỡ người khác và làm việc tốt với nhóm. 
 Tôi cũng có thể thực hiện một số nhiệm vụ cố vấn và đánh giá mã cho các thành viên khác.
-Những cuốn sách yêu thích của tôi là: Dive Into DESIGN PATTERNS.
-                  ''',
+Những cuốn sách yêu thích của tôi là: Dive Into DESIGN PATTERNS.''',
               ),
             ),
           ],

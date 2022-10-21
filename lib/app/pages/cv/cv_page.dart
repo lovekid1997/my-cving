@@ -24,25 +24,27 @@ class CvPage extends StatelessWidget {
         children: [
           Container(
             width: 420,
-            padding: const EdgeInsets.all(20),
             color: const Color(0xff20212A),
-            child: ListView(
-              children: const [
-                AvatarAndInformation(),
-                kHeight10,
-                ExperienceBasic(),
-                InformationBasic(),
-                DividerCommon(
-                  indent: 20,
-                  endIndent: 20,
-                ),
-                SummaryWidget(),
-                DividerCommon(
-                  indent: 20,
-                  endIndent: 20,
-                ),
-                DownloadCvButton(),
-              ],
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: const [
+                  AvatarAndInformation(),
+                  kHeight10,
+                  ExperienceBasic(),
+                  InformationBasic(),
+                  DividerCommon(
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  SummaryWidget(),
+                  DividerCommon(
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  DownloadCvButton(),
+                ],
+              ),
             ),
           ),
           Expanded(
