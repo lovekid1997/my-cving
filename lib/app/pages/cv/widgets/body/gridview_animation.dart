@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const _pushDuration = Duration(milliseconds: 400);
+const _pushDistribute = Duration(milliseconds: 400);
 
 class GridViewAnimation extends StatefulWidget {
   const GridViewAnimation({
@@ -35,7 +35,7 @@ class _GridViewAnimationState extends State<GridViewAnimation> {
               ),
               itemCount: _keys.length,
               itemBuilder: (context, index) {
-                return _Item(
+                return _ItemCard(
                   index: index,
                   key: _keys.elementAt(index),
                   create: create,
@@ -44,7 +44,9 @@ class _GridViewAnimationState extends State<GridViewAnimation> {
             ),
           ),
           Positioned.fill(
-              child: MyWidget(gridAnimationObjects: _gridAnimationObjects)),
+            child:
+                _DistributeStack(gridAnimationObjects: _gridAnimationObjects),
+          ),
         ],
       ),
     );
@@ -69,20 +71,20 @@ class _GridViewAnimationState extends State<GridViewAnimation> {
   }
 }
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key, required this.gridAnimationObjects});
+class _DistributeStack extends StatefulWidget {
+  const _DistributeStack({required this.gridAnimationObjects});
   final List<GridAnimationObject> gridAnimationObjects;
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<_DistributeStack> createState() => _DistributeStackState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _DistributeStackState extends State<_DistributeStack> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: List.generate(
         widget.gridAnimationObjects.length,
-        (index) => _ItemAnimation(
+        (index) => _DistributeAnimationItem(
           gridAnimationObject: widget.gridAnimationObjects.elementAt(index),
           index: index,
         ),
@@ -91,18 +93,19 @@ class _MyWidgetState extends State<MyWidget> {
   }
 }
 
-class _ItemAnimation extends StatefulWidget {
-  const _ItemAnimation({
+class _DistributeAnimationItem extends StatefulWidget {
+  const _DistributeAnimationItem({
     required this.gridAnimationObject,
     required this.index,
   });
   final GridAnimationObject gridAnimationObject;
   final int index;
   @override
-  State<_ItemAnimation> createState() => __ItemAnimationState();
+  State<_DistributeAnimationItem> createState() =>
+      _DistributeAnimationItemState();
 }
 
-class __ItemAnimationState extends State<_ItemAnimation>
+class _DistributeAnimationItemState extends State<_DistributeAnimationItem>
     with TickerProviderStateMixin {
   late Animation<Offset> animation;
   late AnimationController animationController;
@@ -111,7 +114,7 @@ class __ItemAnimationState extends State<_ItemAnimation>
   void initState() {
     animationController = AnimationController(
       vsync: this,
-      duration: _pushDuration,
+      duration: _pushDistribute,
     );
     animation = Tween<Offset>(
       begin: Offset.zero,
@@ -154,8 +157,8 @@ class __ItemAnimationState extends State<_ItemAnimation>
   }
 }
 
-class _Item extends StatefulWidget {
-  const _Item({
+class _ItemCard extends StatefulWidget {
+  const _ItemCard({
     Key? key,
     required this.index,
     required this.create,
@@ -163,10 +166,10 @@ class _Item extends StatefulWidget {
   final int index;
   final Function(GlobalKey, int index) create;
   @override
-  State<_Item> createState() => _ItemState();
+  State<_ItemCard> createState() => _ItemCardState();
 }
 
-class _ItemState extends State<_Item> with TickerProviderStateMixin {
+class _ItemCardState extends State<_ItemCard> with TickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController animationController;
 
@@ -177,7 +180,7 @@ class _ItemState extends State<_Item> with TickerProviderStateMixin {
     });
     animationController = AnimationController(
       vsync: this,
-      duration: _pushDuration,
+      duration: _pushDistribute,
     );
     animation = Tween<double>(
       begin: 0,
