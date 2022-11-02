@@ -31,11 +31,16 @@ class CvPage extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends StatefulWidget {
   const _Body({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -44,11 +49,11 @@ class _Body extends StatelessWidget {
         child: Column(
           children: [
             TextButton(
-              onPressed: () {},
-              child: const Text('t'),
-            ),
-            TextButton(onPressed: () {}, child: const Text('test')),
-            const GridViewAnimation(),
+                onPressed: () {
+                  setState(() {});
+                },
+                child: const Text('test')),
+            GridViewAnimation(key: UniqueKey()),
           ],
         ),
       ),
