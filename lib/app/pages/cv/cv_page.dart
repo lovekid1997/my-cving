@@ -7,6 +7,7 @@ import 'package:my_cving/app/pages/cv/widgets/left_panel/download_cv_button.dart
 import 'package:my_cving/app/pages/cv/widgets/left_panel/experience_basic.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/information_basic.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/summary.dart';
+import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/app/widgets/divider.dart';
 
 class CvPage extends StatelessWidget {
@@ -41,6 +42,7 @@ class _Body extends StatefulWidget {
 }
 
 class _BodyState extends State<_Body> {
+  final GridViewAnimationController controller = GridViewAnimationController();
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -48,13 +50,66 @@ class _BodyState extends State<_Body> {
         decoration: const BoxDecoration(color: Color(0xff1E1E27)),
         child: Column(
           children: [
-            TextButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                child: const Text('test')),
-            GridViewAnimation(key: UniqueKey()),
+            Row(
+              children: [
+                TextButton(
+                    onPressed: () {
+                      setState(() {});
+                    },
+                    child: const Text('test')),
+                TextButton(
+                    onPressed: () {
+                      controller.refresh();
+                    },
+                    child: const Text('refresh')),
+              ],
+            ),
+            Expanded(
+              child: GridViewAnimation(
+                key: UniqueKey(),
+                controller: controller,
+                delayPerItem: true,
+                fadeAnimation: true,
+                initialFadeAnimation: true,
+                delegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
+                children: const [
+                  _Card(),
+                  _Card(),
+                  _Card(),
+                  _Card(),
+                  _Card(),
+                  _Card(),
+                  _Card(),
+                  _Card(),
+                ],
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Card extends StatelessWidget {
+  const _Card({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: cTextLight,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: cWhite),
+        image: const DecorationImage(
+          image: AssetImage(
+            ImageAssets.riderWaite,
+          ),
+          fit: BoxFit.cover,
         ),
       ),
     );

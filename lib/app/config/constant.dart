@@ -28,4 +28,5 @@ class ImageAssets {
 
   // jpg
   static const String myImage = 'assets/jpg/my_image.jpg';
+  static const String riderWaite = 'assets/jpg/rider_waite.jpeg';
 }
