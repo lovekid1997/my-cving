@@ -289,6 +289,7 @@ class _DealCardState extends State<_DealCard> with TickerProviderStateMixin {
     gridAnimationObject.addListenRefreshOnDealCard(
       animationController,
       delayedStartAnimationCardDeal,
+      startAnimation,
     );
   }
 
@@ -370,6 +371,7 @@ class _CardState extends State<_Card> with TickerProviderStateMixin {
 
   // state
   Timer? delayedStartAnimationCard;
+  bool firstTimeBuild = true;
 
   // getter
   _GridAnimationObject get gridAnimationObject => widget.gridAnimationObject;
@@ -382,19 +384,7 @@ class _CardState extends State<_Card> with TickerProviderStateMixin {
       widget.create(gridAnimationObject);
     });
     createAnimationOpacity();
-
-    // start animation
-    final delayDuration = deplayPerItemDuration(
-      widget.delayPerItem,
-      index,
-    );
-    final delayPerItemDuration = widget.initialFadeAnimation
-        ? _fadeInitDuration + delayDuration
-        : delayDuration;
-    delayedStartAnimationCard = Timer(delayPerItemDuration, () {
-      animationController.forward();
-    });
-
+    startAnimation();
     addListenController();
     super.initState();
   }
@@ -419,10 +409,28 @@ class _CardState extends State<_Card> with TickerProviderStateMixin {
       });
   }
 
+  /// plus _fadeInitDuration when first time build widget and initialFadeAnimation = [True]
+  void startAnimation() {
+    var delayDuration = deplayPerItemDuration(
+      widget.delayPerItem,
+      index,
+    );
+    if (firstTimeBuild) {
+      delayDuration = widget.initialFadeAnimation
+          ? _fadeInitDuration + delayDuration
+          : delayDuration;
+    }
+    delayedStartAnimationCard = Timer(delayDuration, () {
+      animationController.forward();
+    });
+    firstTimeBuild = false;
+  }
+
   void addListenController() {
     gridAnimationObject.addListenRefreshOnCard(
       animationController,
       delayedStartAnimationCard,
+      startAnimation,
     );
   }
 
@@ -469,6 +477,8 @@ Duration deplayPerItemDuration(bool delayPerItem, int index) =>
 
 enum GridViewAnimationAction {
   refresh,
+  deal,
+  cancel,
 }
 
 class GridViewAnimationController {
@@ -479,6 +489,14 @@ class GridViewAnimationController {
 
   void refresh() {
     _animationActionStream.sink.add(GridViewAnimationAction.refresh);
+  }
+
+  void deal() {
+    _animationActionStream.sink.add(GridViewAnimationAction.deal);
+  }
+
+  void cancel() {
+    _animationActionStream.sink.add(GridViewAnimationAction.cancel);
   }
 
   dispose() {
@@ -544,14 +562,24 @@ class _GridAnimationObject {
   void addListenRefreshOnDealCard(
     AnimationController animationController,
     Timer? delayedStartAnimationCardDeal,
+    void Function() startAnimation,
   ) {
     if (animationActionStream == null) {
       return;
     }
     _listenSubcriptionOnDealCard ??=
-        animationActionStream!.stream.listen((event) {
+        animationActionStream!.stream.listen((event) async {
       switch (event) {
         case GridViewAnimationAction.refresh:
+          delayedStartAnimationCardDeal?.cancel();
+          animationController.reverse().then((_) {
+            animationController.forward();
+          });
+          break;
+        case GridViewAnimationAction.deal:
+          startAnimation();
+          break;
+        case GridViewAnimationAction.cancel:
           delayedStartAnimationCardDeal?.cancel();
           animationController.reverse();
           break;
@@ -564,6 +592,7 @@ class _GridAnimationObject {
   void addListenRefreshOnCard(
     AnimationController animationController,
     Timer? delayedStartAnimationCard,
+    void Function() startAnimation,
   ) {
     if (animationActionStream == null) {
       return;
@@ -571,6 +600,15 @@ class _GridAnimationObject {
     _listenSubcriptionOnCard ??= animationActionStream!.stream.listen((event) {
       switch (event) {
         case GridViewAnimationAction.refresh:
+          delayedStartAnimationCard?.cancel();
+          animationController.reverse().then((_) {
+            animationController.forward();
+          });
+          break;
+        case GridViewAnimationAction.deal:
+          startAnimation();
+          break;
+        case GridViewAnimationAction.cancel:
           delayedStartAnimationCard?.cancel();
           animationController.reverse();
           break;

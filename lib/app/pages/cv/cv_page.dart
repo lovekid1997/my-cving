@@ -53,15 +53,23 @@ class _BodyState extends State<_Body> {
             Row(
               children: [
                 TextButton(
-                    onPressed: () {
-                      setState(() {});
-                    },
-                    child: const Text('test')),
+                  onPressed: () {
+                     controller.cancel();
+                  },
+                  child: const Text('cancel'),
+                ),
                 TextButton(
-                    onPressed: () {
-                      controller.refresh();
-                    },
-                    child: const Text('refresh')),
+                  onPressed: () {
+                   controller.deal();
+                  },
+                  child: const Text('deal'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    controller.refresh();
+                  },
+                  child: const Text('refresh'),
+                ),
               ],
             ),
             Expanded(
@@ -69,7 +77,7 @@ class _BodyState extends State<_Body> {
                 key: UniqueKey(),
                 controller: controller,
                 delayPerItem: true,
-                fadeAnimation: true,
+                fadeAnimation: false,
                 initialFadeAnimation: true,
                 delegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
