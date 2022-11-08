@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grid_animation/grid_animation.dart';
 import 'package:my_cving/app/config/constant.dart';
-import 'package:my_cving/app/pages/cv/widgets/body/gridview_animation.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/avatar_and_information.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/download_cv_button.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/experience_basic.dart';
@@ -54,13 +54,13 @@ class _BodyState extends State<_Body> {
               children: [
                 TextButton(
                   onPressed: () {
-                     controller.cancel();
+                    controller.cancel();
                   },
                   child: const Text('cancel'),
                 ),
                 TextButton(
                   onPressed: () {
-                   controller.deal();
+                    controller.deal();
                   },
                   child: const Text('deal'),
                 ),
