@@ -7,6 +7,7 @@ const kHeight8 = SizedBox(height: 8);
 const kHeight10 = SizedBox(height: 10);
 const kHeight12 = SizedBox(height: 12);
 const kHeight14 = SizedBox(height: 14);
+const kHeight20 = SizedBox(height: 20);
 const kWidth4 = SizedBox(width: 4);
 const kWidth6 = SizedBox(width: 6);
 const kWidth10 = SizedBox(width: 10);
@@ -28,5 +29,4 @@ class ImageAssets {
 
   // jpg
   static const String myImage = 'assets/jpg/my_image.jpg';
-  static const String riderWaite = 'assets/jpg/rider_waite.jpeg';
 }
