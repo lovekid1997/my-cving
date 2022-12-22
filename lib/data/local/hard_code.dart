@@ -4,10 +4,12 @@ import 'package:my_cving/app/pages/cv/cv_page.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/domain/entities/icon_animation.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
+import 'package:my_cving/domain/entities/skill.dart';
 
 class HardCodeData {
   static List<Navbar> navBarData(BuildContext context) => _navBarData(context);
   static List<IconAnimation> iconAnimationData = _iconAnimation;
+  static List<List<Skill>> skills = _skills;
 }
 
 List<Navbar> _navBarData(BuildContext context) {
@@ -66,4 +68,60 @@ final List<IconAnimation> _iconAnimation = [
     'Blogs',
     FontAwesomeIcons.wordpress,
   ),
+];
+
+final List<List<Skill>> _skills = [
+  [
+    Skill(
+      'PROGRAMMING LANGUAGES',
+      [
+        'Dart',
+        'Kotlin - Basic',
+        'Swift - Basic',
+      ],
+    ),
+    Skill(
+      'FRAMEWORKS & PLATFORMS',
+      [
+        'Flutter',
+        'Android - Basic',
+        'Ios - Basic',
+      ],
+    ),
+  ],
+  [
+    Skill(
+      'DATABASE',
+      [
+        'SQL',
+        'FireStore',
+        'Hive - Flutter',
+      ],
+    ),
+    Skill(
+      'VERSION CONTROL',
+      [
+        'Git (Git Lab & Github)',
+      ],
+    ),
+    Skill(
+      'IDE',
+      [
+        'Visual Studio Code',
+        'Android studio',
+      ],
+    ),
+  ],
+  [
+    Skill(
+      'KNOWLEDGE',
+      [
+        'Understanding about OOP, Design Pattern, SOLID principles, Dependency Injection, ...',
+        'Understanding about TDD, Integration testing,...',
+        'Good understanding about the Agile and Scrum process',
+        'Good understanding software design, database design, RestfulAPI, ...',
+        'Good time management, presentation and teamwork skills ...',
+      ],
+    ),
+  ],
 ];

@@ -68,3 +68,5 @@ extension ContextExtension on BuildContext {
     return lightModeColor;
   }
 }
+
+extension TextStyleE on TextStyle {}

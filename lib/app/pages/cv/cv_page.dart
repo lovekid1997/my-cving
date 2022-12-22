@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grid_animation/grid_animation.dart';
 import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/avatar_and_information.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/download_cv_button.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/experience_basic.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/information_basic.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/summary.dart';
+import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
 import 'package:my_cving/app/widgets/divider.dart';
+import 'package:my_cving/data/local/hard_code.dart';
+import 'package:my_cving/domain/entities/skill.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});
@@ -42,7 +44,6 @@ class _Body extends StatefulWidget {
 }
 
 class _BodyState extends State<_Body> {
-  final GridViewAnimationController controller = GridViewAnimationController();
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -50,49 +51,36 @@ class _BodyState extends State<_Body> {
         decoration: const BoxDecoration(color: Color(0xff1E1E27)),
         child: Column(
           children: [
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    controller.cancel();
-                  },
-                  child: const Text('cancel'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    controller.deal();
-                  },
-                  child: const Text('deal'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    controller.refresh();
-                  },
-                  child: const Text('refresh'),
-                ),
-              ],
-            ),
-            Expanded(
-              child: GridViewAnimation(
-                key: UniqueKey(),
-                controller: controller,
-                delayPerItem: true,
-                fadeAnimation: false,
-                initialFadeAnimation: true,
-                delegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                children: const [
-                  _Card(),
-                  _Card(),
-                  _Card(),
-                  _Card(),
-                  _Card(),
-                  _Card(),
-                  _Card(),
-                  _Card(),
+            kHeight20,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    color: cDarkBlue,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      'Kĩ năng',
+                      style: context.headline6.copyWith(color: cWhite),
+                    ),
+                  ),
+                  kHeight10,
+                  IntrinsicHeight(
+                    child: Row(
+                      children: List.generate(
+                        HardCodeData.skills.length,
+                        (index) => _Card(
+                          skills: HardCodeData.skills.elementAt(index),
+                          marginRight:
+                              index < HardCodeData.skills.length - 1 ? 20 : 0,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -104,20 +92,66 @@ class _BodyState extends State<_Body> {
 }
 
 class _Card extends StatelessWidget {
-  const _Card({Key? key}) : super(key: key);
-
+  const _Card({
+    Key? key,
+    required this.skills,
+    required this.marginRight,
+  }) : super(key: key);
+  final List<Skill> skills;
+  final double marginRight;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: cTextLight,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: cWhite),
-        image: const DecorationImage(
-          image: AssetImage(
-            ImageAssets.riderWaite,
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: cDarkBlue,
+        ),
+        margin: EdgeInsets.only(right: marginRight),
+        padding: const EdgeInsets.only(top: 12, left: 10, right: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: List.generate(
+            skills.length,
+            (index) {
+              final skill = skills.elementAt(index);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      skill.title,
+                      style: context.headline6.copyWith(color: cWhite1),
+                    ),
+                    kHeight4,
+                    ...List.generate(
+                      skill.contents.length,
+                      (index) => Row(
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            margin: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: const BoxDecoration(
+                              color: cTextLight,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              skill.contents.elementAt(index),
+                              style: context.bodyText1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-          fit: BoxFit.cover,
         ),
       ),
     );
