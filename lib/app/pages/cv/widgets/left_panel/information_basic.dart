@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -50,9 +51,9 @@ class InformationBasic extends StatelessWidget {
           ),
           kHeight8,
           _Item(
-            content: 'http://localhost:3000',
+            content: window.location.href,
             icon: FontAwesomeIcons.earthAsia,
-            onTap: openMyBrowser,
+            onTap: () => openMyBrowser(window.location.href),
             isOpenLink: true,
             title: 'Website',
           ),
@@ -61,8 +62,8 @@ class InformationBasic extends StatelessWidget {
     );
   }
 
-  Future<void> openMyBrowser() async {
-    await UrlLauncher().launchUrlNewTab('http://localhost:3000');
+  Future<void> openMyBrowser(String myUrl) async {
+    await UrlLauncher().launchUrlNewTab(myUrl);
   }
 
   Future<void> openMail() async {

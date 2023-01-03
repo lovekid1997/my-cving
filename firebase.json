@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "my-cv-ing",
+    "site": "my-cving",
     "public": "build/web",
     "ignore": [
       "firebase.json",
