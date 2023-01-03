@@ -72,7 +72,7 @@ class _Card extends StatelessWidget {
                   children: [
                     Text(
                       skill.title,
-                      style: context.headline6.copyWith(color: cWhite1),
+                      style: context.headline6.copyWith(color: cTextLight1Dark),
                     ),
                     kHeight4,
                     ...List.generate(

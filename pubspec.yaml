@@ -35,7 +35,7 @@ dependencies:
   hive: ^2.2.3
   dio: ^4.0.6
   sentry_flutter: ^6.18.1
-  timeline_tile: ^2.0.0
+  timelines: ^0.1.0
   
 dev_dependencies:
   flutter_test:

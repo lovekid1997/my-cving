@@ -14,7 +14,6 @@ class UrlLauncher {
 
   Future<void> launchUrlNewTab(String url) async {
     try {
-      Uri.base;
       final uri = Uri.parse(url);
       await launchUrl(uri);
     } catch (e) {
@@ -28,7 +27,7 @@ class UrlLauncher {
         scheme: 'mailto',
         path: emailAddress,
         query: <String, String>{
-          'subject': 'Example Subject & Symbols are allowed!',
+          'subject': 'Xin chao',
         }
             .entries
             .map((e) =>

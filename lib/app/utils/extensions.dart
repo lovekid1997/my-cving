@@ -47,9 +47,11 @@ extension ContextExtension on BuildContext {
   TextStyle get headline6 => theme.textTheme.headline6!;
   TextStyle get headlineSmall => theme.textTheme.headlineSmall!;
   TextStyle get titleLarge => theme.textTheme.titleLarge!;
+  TextStyle get titleMedium => theme.textTheme.titleMedium!;
   TextStyle get titleSmall => theme.textTheme.titleSmall!;
   TextStyle get bodyText1 => theme.textTheme.bodyText1!;
   TextStyle get bodyText2 => theme.textTheme.bodyText2!;
+  TextStyle get caption => theme.textTheme.caption!;
 
   bool get isDarkMode =>
       ProviderScope.containerOf(this, listen: false).read(themesProvider) ==

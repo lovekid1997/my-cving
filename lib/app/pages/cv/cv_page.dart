@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_cving/app/config/constant.dart';
-import 'package:my_cving/app/pages/cv/widgets/body/experice.dart';
-import 'package:my_cving/app/pages/cv/widgets/body/skills.dart';
+import 'package:my_cving/app/pages/cv/widgets/body/experience.dart';
+import 'package:my_cving/app/pages/cv/widgets/body/skills_widget.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/avatar_and_information.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/download_cv_button.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/experience_basic.dart';
@@ -48,13 +48,15 @@ class _BodyState extends State<_Body> {
       child: Container(
         decoration: const BoxDecoration(color: Color(0xff1E1E27)),
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          children: const [
-            kHeight20,
-            SkilsWidget(),
-            kHeight20,
-            Experience(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              kHeight20,
+              SkilsWidget(),
+              kHeight20,
+              Experience(),
+            ],
+          ),
         ),
       ),
     );

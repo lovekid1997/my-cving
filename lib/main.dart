@@ -16,7 +16,7 @@ Future<void> main() async {
           'https://cad0a4d2614645b399938187a00f8616@o4504373196423168.ingest.sentry.io/4504373197209600';
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
       // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
+      options.tracesSampleRate = 0.0;
     },
     appRunner: () => runApp(
       const ProviderScope(
