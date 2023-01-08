@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_cving/app/config/constant.dart';
-import 'package:my_cving/app/pages/cv/widgets/body/experience.dart';
+import 'package:my_cving/app/pages/cv/widgets/body/experience_widget.dart';
 import 'package:my_cving/app/pages/cv/widgets/body/skills_widget.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/avatar_and_information.dart';
 import 'package:my_cving/app/pages/cv/widgets/left_panel/download_cv_button.dart';
@@ -54,7 +54,7 @@ class _BodyState extends State<_Body> {
               kHeight20,
               SkilsWidget(),
               kHeight20,
-              Experience(),
+              ExperienceWidget(),
             ],
           ),
         ),

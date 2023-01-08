@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:my_cving/app/services/url_launcher.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/app/utils/theme.dart';
+import 'package:my_cving/data/local/hard_code.dart';
+import 'package:my_cving/domain/entities/experience.dart';
 import 'package:timelines/timelines.dart';
 import 'package:url_launcher/link.dart';
 
-class Experience extends StatelessWidget {
-  const Experience({super.key});
+class ExperienceWidget extends StatelessWidget {
+  const ExperienceWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final data = HardCodeData.experience;
     return Column(
       children: [
         Container(
@@ -26,66 +29,25 @@ class Experience extends StatelessWidget {
           builder: TimelineTileBuilder.connected(
             connectorBuilder: (_, index, type) {
               return const SizedBox(
-                height: 60.0,
+                height: 80.0,
                 child: SolidLineConnector(),
               );
             },
             oppositeContentsBuilder: (_, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Mmenu',
-                    style: context.titleMedium.copyWith(color: cTextLight1Dark),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'FUTTER DEVELOPER',
-                    style: context.caption.copyWith(color: cTextNormalDark),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              );
+              final item = data.elementAt(index);
+              return _CompanyAndPosition(item: item);
             },
-            contentsBuilder: _ProjectDesciption.contentsBuilder,
+            contentsBuilder: (_, index) => _ProjectDesciption.contentsBuilder(
+                experienceDescription:
+                    data.elementAt(index).experienceDescription),
             nodePositionBuilder: (_, index) {
               return .12;
             },
             indicatorBuilder: (_, index) {
-              return DotIndicator(
-                size: 130,
-                border: Border.all(
-                  color: cDarkBlue,
-                  width: 2,
-                ),
-                color: cDark,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '08/2021',
-                      style: context.headline6.copyWith(
-                        color: cTextLight1Dark,
-                      ),
-                    ),
-                    Text(
-                      '-',
-                      style: context.headline6.copyWith(
-                        color: cTextLight1Dark,
-                      ),
-                    ),
-                    Text(
-                      'Đến nay',
-                      style: context.headline6.copyWith(
-                        color: cTextLight1Dark,
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              final item = data.elementAt(index);
+              return _FromAndToInWork(item: item);
             },
-            itemCount: 3,
+            itemCount: data.length,
           ),
         ),
       ],
@@ -93,12 +55,88 @@ class Experience extends StatelessWidget {
   }
 }
 
-class _ProjectDesciption extends StatelessWidget {
-  const _ProjectDesciption();
+class _FromAndToInWork extends StatelessWidget {
+  const _FromAndToInWork({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
 
-  static Widget? contentsBuilder(BuildContext context, int index) {
-    return const _ProjectDesciption();
+  final Experience item;
+
+  @override
+  Widget build(BuildContext context) {
+    return DotIndicator(
+      size: 130,
+      border: Border.all(
+        color: cDarkBlue,
+        width: 2,
+      ),
+      color: cDark,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            item.from,
+            style: context.headline6.copyWith(
+              color: cTextLight1Dark,
+            ),
+          ),
+          Text(
+            '-',
+            style: context.headline6.copyWith(
+              color: cTextLight1Dark,
+            ),
+          ),
+          Text(
+            item.to,
+            style: context.headline6.copyWith(
+              color: cTextLight1Dark,
+            ),
+          ),
+        ],
+      ),
+    );
   }
+}
+
+class _CompanyAndPosition extends StatelessWidget {
+  const _CompanyAndPosition({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  final Experience item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          item.company,
+          style: context.titleMedium.copyWith(color: cTextLight1Dark),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          item.position,
+          style: context.caption.copyWith(color: cTextNormalDark),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
+class _ProjectDesciption extends StatelessWidget {
+  const _ProjectDesciption(this.experienceDescription);
+  final ExperienceDescription experienceDescription;
+
+  static Widget? contentsBuilder(
+          {required ExperienceDescription experienceDescription}) =>
+      _ProjectDesciption(
+        experienceDescription,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -111,37 +149,37 @@ class _ProjectDesciption extends StatelessWidget {
           textRich(
             context,
             'Project',
-            'Mmenu admin - Mmenu customer Application',
+            experienceDescription.project,
           ),
           textRich(
             context,
             'Project Description',
-            'All in one solution in the business of F&B',
+            experienceDescription.description,
           ),
           textRich(
             context,
             'Team Size',
-            '8',
+            experienceDescription.teamSize,
           ),
           textRich(
             context,
             'Responsiblities',
-            'Review code, management App store and Play store, develop the frameworks and modules of the system. ',
+            experienceDescription.responsiblities,
           ),
           textRich(
             context,
             'Accomplishments',
-            'Xây dựng và quản lý máy in ESC/POS. Improved teamwork and communication skills.',
+            experienceDescription.accomplishments,
           ),
           textRich(
             context,
             'Stores',
-            'https://apps.apple.com/vn/app/mmenu-admin/id1610048415*https://play.google.com/store/apps/details?id=admin.mmenu.io',
+            experienceDescription.stores.join('*'),
           ),
           textRich(
             context,
             'Technologies',
-            'Front-end: Flutter + Bloc pattern, Firebase, Protobuf, Rest API, Kotlin',
+            experienceDescription.tech,
           ),
         ],
       ),

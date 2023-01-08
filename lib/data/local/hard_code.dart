@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_cving/app/pages/cv/cv_page.dart';
 import 'package:my_cving/app/utils/extensions.dart';
+import 'package:my_cving/domain/entities/experience.dart';
 import 'package:my_cving/domain/entities/icon_animation.dart';
 import 'package:my_cving/domain/entities/nav_bar.dart';
 import 'package:my_cving/domain/entities/skill.dart';
@@ -10,6 +11,7 @@ class HardCodeData {
   static List<Navbar> navBarData(BuildContext context) => _navBarData(context);
   static List<IconAnimation> iconAnimationData = _iconAnimation;
   static List<List<Skill>> skills = _skills;
+  static List<Experience> experience = Experience.instance();
 }
 
 List<Navbar> _navBarData(BuildContext context) {
