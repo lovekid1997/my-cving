@@ -1,5 +1,3 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -51,10 +49,11 @@ class InformationBasic extends StatelessWidget {
             isMail: true,
           ),
           kHeight8,
+          // TODO: fix me
           _Item(
-            content: window.location.href,
+            content: 'window.location.href',
             icon: FontAwesomeIcons.earthAsia,
-            onTap: () => openMyBrowser(window.location.href),
+            onTap: () => openMyBrowser('window.location.href'),
             isOpenLink: true,
             title: 'Website',
           ),

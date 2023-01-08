@@ -69,7 +69,14 @@ class NavbarWidgetState extends ConsumerState<NavbarWidget> {
                                   isSelected: _isSelected(index),
                                   isShowExpandButton:
                                       e.navbarSubEntities.isNotEmpty,
-                                  onTap: e.onEvent,
+                                  onTap: () {
+                                    if (_selected == null) {
+                                      _onExpand(index);
+                                    } else {
+                                      _onClose();
+                                    }
+                                    e.onEvent();
+                                  },
                                 )))
                             .values
                             .toList(),
