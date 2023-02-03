@@ -18,6 +18,7 @@ const k8 = 8.0;
 const k10 = 10.0;
 const k12 = 12.0;
 const k14 = 14.0;
+const kDuration100ml = Duration(milliseconds: 100);
 const kDuration200ml = Duration(milliseconds: 200);
 const kDuration300ml = Duration(milliseconds: 300);
 const kDuration500ml = Duration(milliseconds: 500);
