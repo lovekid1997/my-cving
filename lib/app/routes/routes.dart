@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_cving/app/pages/cv/cv_page.dart';
 import 'package:my_cving/app/pages/doc/doc_page.dart';
+import 'package:my_cving/app/pages/games/games_page.dart';
 import 'package:my_cving/app/pages/home/home_page.dart';
 import 'package:my_cving/app/pages/information/information_page.dart';
 import 'package:my_cving/app/pages/settings/settings_page.dart';
@@ -41,6 +42,11 @@ final GoRouter myRouter = GoRouter(
           name: DocPage.name,
           path: DocPage.path,
           pageBuilder: (context, state) => _pageBuilder(const DocPage(), state),
+        ),
+        GoRoute(
+          name: GamesPage.name,
+          path: GamesPage.path,
+          pageBuilder: (context, state) => _pageBuilder(const GamesPage(), state),
         ),
       ],
     ),
