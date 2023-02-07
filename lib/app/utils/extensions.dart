@@ -42,16 +42,16 @@ extension StringExtension on String {
 extension ContextExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
 
-  TextStyle get headline4 => theme.textTheme.headline4!;
-  TextStyle get headline5 => theme.textTheme.headline5!;
-  TextStyle get headline6 => theme.textTheme.headline6!;
+  TextStyle get headline4 => theme.textTheme.headlineLarge!;
+  TextStyle get headline5 => theme.textTheme.headlineMedium!;
+  TextStyle get headline6 => theme.textTheme.headlineSmall!;
   TextStyle get headlineSmall => theme.textTheme.headlineSmall!;
   TextStyle get titleLarge => theme.textTheme.titleLarge!;
   TextStyle get titleMedium => theme.textTheme.titleMedium!;
   TextStyle get titleSmall => theme.textTheme.titleSmall!;
-  TextStyle get bodyText1 => theme.textTheme.bodyText1!;
-  TextStyle get bodyText2 => theme.textTheme.bodyText2!;
-  TextStyle get caption => theme.textTheme.caption!;
+  TextStyle get bodyText1 => theme.textTheme.bodyLarge!;
+  TextStyle get bodyText2 => theme.textTheme.bodyMedium!;
+  TextStyle get caption => theme.textTheme.bodySmall!;
 
   bool get isDarkMode =>
       ProviderScope.containerOf(this, listen: false).read(themesProvider) ==
