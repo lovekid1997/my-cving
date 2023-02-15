@@ -19,21 +19,25 @@ class GamesPage extends StatelessWidget {
   }
 }
 
-class MyGame extends FlameGame {
+class MyGame extends FlameGame with HasTappables {
   SpriteComponent girl = SpriteComponent();
   SpriteComponent boy = SpriteComponent();
   SpriteComponent background = SpriteComponent();
   final double charaterSize = 400;
-  bool boyFilp = true;
+  final textBoxHeight = 100;
+  DialogButton dialogButton = DialogButton();
+
+  TextPaint dialogTextPaint =
+      TextPaint(style: const TextStyle(fontSize: 36, color: Colors.white));
+  int dialogTextLevel = -1;
   @override
   onLoad() async {
     super.onLoad();
     final screenWidth = size[0];
     final screenHeight = size[1];
-    const textBoxHeight = 100;
     add(background
       ..sprite = await loadSprite('background.jpg')
-      ..size = size);
+      ..size = Vector2(screenWidth, screenHeight - textBoxHeight));
     girl
       ..sprite = await loadSprite('girl.png')
       ..size = Vector2(charaterSize, charaterSize)
@@ -47,6 +51,10 @@ class MyGame extends FlameGame {
       ..anchor = Anchor.topCenter
       ..flipHorizontally();
     addAll([girl, boy]);
+    dialogButton
+      ..sprite = await loadSprite('next.png')
+      ..size = Vector2(50, 50)
+      ..position = Vector2(screenWidth - 50, screenHeight - 50);
   }
 
   @override
@@ -54,6 +62,12 @@ class MyGame extends FlameGame {
     super.update(dt);
     if (girl.x < size.x / 2 - 150) {
       girl.x += dt * 150;
+      if (girl.x > 50 && dialogTextLevel == -1) {
+        dialogTextLevel = 0;
+      }
+      if (girl.x > 200) {
+        dialogTextLevel = 1;
+      }
     } else {
       if (boy.isFlippedHorizontally) {
         boy.flipHorizontally();
@@ -61,6 +75,37 @@ class MyGame extends FlameGame {
     }
     if (boy.x > size.x / 2 - 50) {
       boy.x -= dt * 150;
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    switch (dialogTextLevel) {
+      case 0:
+        dialogTextPaint.render(
+            canvas, 'test', Vector2(10, size[1] - textBoxHeight));
+        break;
+      case 1:
+        dialogTextPaint.render(canvas, '                dialogTextPaint test',
+            Vector2(10, size[1] - textBoxHeight));
+        if (!dialogButton.isMounted) {
+          add(dialogButton);
+        }
+        break;
+    }
+  }
+}
+
+class DialogButton extends SpriteComponent with Tappable {
+  @override
+  bool onTapDown(info) {
+    try {
+      print('onTapDown');
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }
