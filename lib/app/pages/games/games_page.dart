@@ -88,7 +88,7 @@ class MyGame extends FlameGame with HasTappables {
             canvas, 'test', Vector2(10, size[1] - textBoxHeight));
         break;
       case 1:
-        dialogTextPaint.render(canvas, '                dialogTextPaint test',
+        dialogTextPaint.render(canvas, '    dialogTextPaint test',
             Vector2(10, size[1] - textBoxHeight));
         if (!dialogButton.isMounted) {
           add(dialogButton);
@@ -102,7 +102,6 @@ class DialogButton extends SpriteComponent with Tappable {
   @override
   bool onTapDown(info) {
     try {
-      print('onTapDown');
       return true;
     } catch (e) {
       return false;
