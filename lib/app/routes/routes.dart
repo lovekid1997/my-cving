@@ -6,6 +6,7 @@ import 'package:my_cving/app/pages/games/games_page.dart';
 import 'package:my_cving/app/pages/home/home_page.dart';
 import 'package:my_cving/app/pages/information/information_page.dart';
 import 'package:my_cving/app/pages/settings/settings_page.dart';
+import 'package:my_cving/app/pages/utilities/utilities_page.dart';
 
 final GoRouter myRouter = GoRouter(
   routes: <GoRoute>[
@@ -46,7 +47,14 @@ final GoRouter myRouter = GoRouter(
         GoRoute(
           name: GamesPage.name,
           path: GamesPage.path,
-          pageBuilder: (context, state) => _pageBuilder(const GamesPage(), state),
+          pageBuilder: (context, state) =>
+              _pageBuilder(const GamesPage(), state),
+        ),
+        GoRoute(
+          name: UtilitiesPage.name,
+          path: UtilitiesPage.path,
+          pageBuilder: (context, state) =>
+              _pageBuilder(const UtilitiesPage(), state),
         ),
       ],
     ),

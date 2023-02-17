@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_cving/app/pages/cv/cv_page.dart';
 import 'package:my_cving/app/pages/doc/doc_page.dart';
 import 'package:my_cving/app/pages/games/games_page.dart';
+import 'package:my_cving/app/pages/utilities/utilities_page.dart';
 import 'package:my_cving/app/utils/extensions.dart';
 import 'package:my_cving/domain/entities/experience.dart';
 import 'package:my_cving/domain/entities/icon_animation.dart';
@@ -45,7 +46,7 @@ Palazzo - link: ''',
     Navbar(
       localizations.utilities,
       [],
-      () {},
+      () => UtilitiesPage.pushPage(context),
     ),
     Navbar(
       localizations.games,

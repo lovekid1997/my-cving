@@ -37,6 +37,7 @@ dependencies:
   sentry_flutter: ^6.18.1
   timelines: ^0.1.0
   flame: ^1.6.0
+  flex_color_scheme: ^7.0.0-dev.2
   
 dev_dependencies:
   flutter_test:
