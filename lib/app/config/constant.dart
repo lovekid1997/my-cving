@@ -31,3 +31,6 @@ class ImageAssets {
   // jpg
   static const String myImage = 'assets/jpg/my_image.jpg';
 }
+
+// MMENU
+const String baseUrlMmenu = 'https://stagingapi.mmenu.io/v2';

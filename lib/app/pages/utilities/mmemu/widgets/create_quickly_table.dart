@@ -1,61 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/constant.dart';
+import 'package:my_cving/app/pages/utilities/mmemu/providers/create_table_providers.dart';
 
-enum CountNumberType {
-  begin0AndCountEven,
-  begin1AndCountEven,
-  begin0AndCountOdd,
-  begin1AndCountOdd,
-}
-
-enum CountNumberStyle {
-  startingFromZero,
-  notStartingFromZero,
-}
-
-enum TableElementType {
-  number,
-  text,
-}
-
-class _Data {
-  final CountNumberStyle? countNumberStyle;
-  final CountNumberType? countNumberType;
-  final String? text;
-  final TableElementType type;
-
-  _Data(
-    this.type, {
-    this.countNumberStyle,
-    this.countNumberType,
-    this.text,
-  });
-
-  _Data copyWith({
-    CountNumberStyle? countNumberStyle,
-    CountNumberType? countNumberType,
-    String? text,
-  }) {
-    return _Data(
-      type,
-      countNumberStyle: countNumberStyle,
-      countNumberType: countNumberType,
-      text: text,
-    );
-  }
-}
-
-class ButtonQuickCreateTable extends StatefulWidget {
+class ButtonQuickCreateTable extends ConsumerStatefulWidget {
   const ButtonQuickCreateTable({super.key});
 
   @override
-  State<ButtonQuickCreateTable> createState() => _ButtonQuickCreateTableState();
+  ButtonQuickCreateTableState createState() => ButtonQuickCreateTableState();
 }
 
-class _ButtonQuickCreateTableState extends State<ButtonQuickCreateTable> {
-  bool hasData = false;
+class ButtonQuickCreateTableState
+    extends ConsumerState<ButtonQuickCreateTable> {
+  bool hasData = true;
   final countNumberController = TextEditingController();
+  final List<String> generated = [];
   @override
   void initState() {
     countNumberController.addListener(() {
@@ -76,17 +36,67 @@ class _ButtonQuickCreateTableState extends State<ButtonQuickCreateTable> {
           },
         ),
         kHeight20,
-        _InputCountNumber(
-          hasData: hasData,
-          countNumberController: countNumberController,
+        Row(
+          children: [
+            _InputCountNumber(
+              hasData: hasData,
+              countNumberController: countNumberController,
+            ),
+            kWidth20,
+            if (int.tryParse(countNumberController.text) != null)
+              FilledButton.tonal(
+                onPressed: () {
+                  final provider = ref.read(createTableProviders.notifier);
+                  generated
+                    ..clear()
+                    ..addAll(provider
+                        .generate(int.parse(countNumberController.text)));
+                  setState(() {});
+                },
+                child: const Text('Generate'),
+              ),
+            kWidth20,
+            Expanded(child: _TableGenerated(generated: generated)),
+          ],
         ),
         kHeight20,
-        if (int.tryParse(countNumberController.text) != null)
-          FilledButton.tonal(
-            onPressed: () {},
-            child: const Text('Generate'),
-          ),
       ],
+    );
+  }
+}
+
+class _TableGenerated extends StatelessWidget {
+  const _TableGenerated({
+    required this.generated,
+  });
+  final List<String> generated;
+  @override
+  Widget build(BuildContext context) {
+    if (generated.isEmpty) {
+      return const SizedBox();
+    }
+    return IntrinsicWidth(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: generated.map((e) => Text(e)).toList(),
+          ),
+          kHeight12,
+          const LinearProgressIndicator(
+            value: .7,
+          ),
+          TextButton(
+            onPressed: () {
+              final a = CreateTableProgress();
+              a.createTable(generated, '');
+            },
+            child: const Text('test'),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -130,18 +140,13 @@ class _InputCountNumber extends StatelessWidget {
   }
 }
 
-class _Format extends StatefulWidget {
+class _Format extends ConsumerWidget {
   const _Format({required this.hasValueCallBack});
   final ValueChanged<bool> hasValueCallBack;
   @override
-  State<_Format> createState() => _FormatState();
-}
-
-class _FormatState extends State<_Format> {
-  final List<Widget> widgetsData = [];
-  final List<_Data> data = [];
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final createTableProvider = ref.watch(createTableProviders.notifier);
+    final List<CreateTableElement> data = createTableProvider.data;
     return Row(
       children: [
         const Text('Format: '),
@@ -162,12 +167,13 @@ class _FormatState extends State<_Format> {
                   return _CountNumberWidget(
                     valueChanged: (value) {
                       data[index] = element.copyWith(
-                        countNumberStyle: value.countNumberStyle,
-                        countNumberType: value.countNumberType,
+                        countNumberStyle: value.countNumberType,
+                        countNumberType: value.countNumberMethod,
                       );
                     },
                   );
                 case TableElementType.text:
+                  data[index] = element.copyWith(text: 'A');
                   return _InputTextWidget(
                     valueChanged: (value) {
                       data[index] = element.copyWith(text: value.text);
@@ -216,10 +222,10 @@ class _FormatState extends State<_Format> {
                   ),
                 ],
               );
-              data.add(_Data(
+              data.add(CreateTableElement(
                 result!,
               ));
-              widget.hasValueCallBack(true);
+              hasValueCallBack(true);
             },
             icon: const Icon(Icons.add),
           );
@@ -233,18 +239,33 @@ class _InputTextWidget extends StatelessWidget {
   const _InputTextWidget({
     required this.valueChanged,
   });
-  final ValueChanged<_Data> valueChanged;
+  final ValueChanged<CreateTableElement> valueChanged;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         SizedBox(
           width: 100,
           height: 56,
-          child: TextField(
-            decoration: InputDecoration(
+          child: TextFormField(
+            initialValue: 'A',
+            autovalidateMode: AutovalidateMode.always,
+            validator: (value) {
+              if ((value ?? '').isEmpty) {
+                return 'Hic';
+              }
+              return null;
+            },
+            decoration: const InputDecoration(
               label: Text('Text'),
+            ),
+            onChanged: (value) => valueChanged(
+              CreateTableElement(
+                TableElementType.text,
+                text: value,
+              ),
             ),
           ),
         ),
@@ -257,14 +278,14 @@ class _CountNumberWidget extends StatefulWidget {
   const _CountNumberWidget({
     required this.valueChanged,
   });
-  final ValueChanged<_Data> valueChanged;
+  final ValueChanged<CreateTableElement> valueChanged;
   @override
   State<_CountNumberWidget> createState() => _CountNumberWidgetState();
 }
 
 class _CountNumberWidgetState extends State<_CountNumberWidget> {
-  var currentCountNumberStyle = CountNumberStyle.startingFromZero;
-  var currentCountNumberType = CountNumberType.begin1AndCountEven;
+  var currentCountNumberStyle = CountNumberType.startingFromZero;
+  var currentCountNumberType = CountNumberMethod.begin1AndCount1;
   @override
   void initState() {
     callBack();
@@ -272,10 +293,10 @@ class _CountNumberWidgetState extends State<_CountNumberWidget> {
   }
 
   void callBack() {
-    widget.valueChanged(_Data(
+    widget.valueChanged(CreateTableElement(
       TableElementType.number,
-      countNumberStyle: currentCountNumberStyle,
-      countNumberType: currentCountNumberType,
+      countNumberType: currentCountNumberStyle,
+      countNumberMethod: currentCountNumberType,
     ));
   }
 
@@ -289,7 +310,7 @@ class _CountNumberWidgetState extends State<_CountNumberWidget> {
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: CountNumberStyle.values
+              children: CountNumberType.values
                   .map((e) => RadioListTile(
                         value: e,
                         groupValue: currentCountNumberStyle,
@@ -310,7 +331,7 @@ class _CountNumberWidgetState extends State<_CountNumberWidget> {
           width: width,
           child: SingleChildScrollView(
             child: Column(
-              children: CountNumberType.values
+              children: CountNumberMethod.values
                   .map((e) => RadioListTile(
                         value: e,
                         groupValue: currentCountNumberType,
