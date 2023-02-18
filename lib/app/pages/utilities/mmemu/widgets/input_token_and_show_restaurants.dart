@@ -27,7 +27,10 @@ class _InputTokenAndShowRestaurantsState
         .debounceTime(const Duration(milliseconds: 800))
         .listen((token) {
       RestaurantProviders.of(context).setToken(token);
-      RestaurantProviders.of(context).getRestaurants();
+      RestaurantProviders.of(context).getRestaurants().then((_) {
+        TableProviders.of(context).fetchTablePosition(
+            RestaurantProviders.of(context).selectedRestaurant?.id);
+      });
     });
     RestaurantProviders.of(context).initShowMessage(context);
     super.initState();

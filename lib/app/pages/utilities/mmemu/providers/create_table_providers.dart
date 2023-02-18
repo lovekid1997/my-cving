@@ -80,8 +80,11 @@ class TableProviders extends BaseChangeNotifier {
     }
   }
 
-  Future fetchTablePosition(String restaurantId) async {
+  Future fetchTablePosition(String? restaurantId) async {
     try {
+      if (restaurantId == null) {
+        return;
+      }
       final results = await netWorkMmenu.dio.get(
         '/restaurants/$restaurantId/table-position',
       );
@@ -92,6 +95,11 @@ class TableProviders extends BaseChangeNotifier {
       logger.e(e);
       addErrorMessage(e);
     }
+  }
+
+  void changeSelectedTablePosition(TablePosition tablePosition) {
+    selectedPosition = tablePosition;
+    notifyListeners();
   }
 }
 
