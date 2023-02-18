@@ -1,8 +1,10 @@
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/providers/create_table_providers.dart';
+import 'package:my_cving/app/pages/utilities/mmemu/providers/restaurant_providers.dart';
+import 'package:my_cving/app/utils/extensions.dart';
 import 'package:provider/provider.dart';
 
 class ButtonQuickCreateTable extends StatefulWidget {
@@ -58,8 +60,8 @@ class _TableGenerated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TableProviders>(
-      builder: (context, value, child) {
-        final generated = value.generated;
+      builder: (context, tableProvider, child) {
+        final generated = tableProvider.generated;
         if (generated.isEmpty) {
           return const SizedBox();
         }
@@ -73,20 +75,31 @@ class _TableGenerated extends StatelessWidget {
                 children: generated.map((e) => Text(e)).toList(),
               ),
               kHeight12,
-              const LinearProgressIndicator(
-                value: .7,
+              LinearProgressIndicator(
+                value: tableProvider.progress,
               ),
               kHeight12,
-              ElevatedButton(
-                onPressed: () {
-                  TableProviders.of(context).createTable(
-                    generated: generated,
-                    restaurantId: '',
-                    positionName: '',
-                  );
-                },
-                child: const Text('Create Table'),
-              ),
+              if (tableProvider.isLoading)
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText('Đang tải ...'),
+                  ],
+                  isRepeatingAnimation: true,
+                  repeatForever: true,
+                )
+              else
+                ElevatedButton(
+                  onPressed: () {
+                    TableProviders.of(context).createTable(
+                      generated: generated,
+                      restaurantId: RestaurantProviders.of(context)
+                              .selectedRestaurant
+                              ?.id ??
+                          '',
+                    );
+                  },
+                  child: const Text('Create Table'),
+                ),
             ],
           ),
         );
@@ -164,17 +177,22 @@ class _Format extends StatelessWidget {
                     case TableElementType.number:
                       return _CountNumberWidget(
                         valueChanged: (value) {
-                          data[index] = element.copyWith(
-                            countNumberStyle: value.countNumberType,
-                            countNumberType: value.countNumberMethod,
+                          tableProviders.changeDependencyElementTable(
+                            element.copyWith(
+                              countNumberStyle: value.countNumberType,
+                              countNumberType: value.countNumberMethod,
+                            ),
+                            index,
                           );
                         },
                       );
                     case TableElementType.text:
-                      data[index] = element.copyWith(text: 'A');
                       return _InputTextWidget(
                         valueChanged: (value) {
-                          data[index] = element.copyWith(text: value.text);
+                          tableProviders.changeDependencyElementTable(
+                            element.copyWith(text: value.text),
+                            index,
+                          );
                         },
                       );
                   }
@@ -221,9 +239,12 @@ class _Format extends StatelessWidget {
                         ),
                       ],
                     );
-                    tableProviders.addCreateTableElement(CreateTableElement(
-                      result!,
-                    ));
+                    if (result != null) {
+                      tableProviders.addCreateTableElement(CreateTableElement(
+                        result,
+                        text: result == TableElementType.text ? 'A' : null,
+                      ));
+                    }
                   },
                   icon: const Icon(Icons.add),
                 );

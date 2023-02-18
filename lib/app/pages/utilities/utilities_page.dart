@@ -28,7 +28,7 @@ class UtilitiesPage extends StatelessWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      child: const MMenuUtilities(),
+      child: MMenuUtilities.provider(),
     );
   }
 

@@ -7,11 +7,9 @@ import 'package:my_cving/app/pages/utilities/mmemu/widgets/input_token_and_show_
 import 'package:my_cving/app/pages/utilities/mmemu/widgets/show_table_positions.dart';
 import 'package:provider/provider.dart';
 
-class MMenuUtilities extends StatelessWidget {
+class MMenuUtilities extends StatefulWidget {
   const MMenuUtilities({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  static provider() {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -21,6 +19,25 @@ class MMenuUtilities extends StatelessWidget {
           create: (context) => TableProviders(),
         ),
       ],
+      child: const MMenuUtilities(),
+    );
+  }
+
+  @override
+  State<MMenuUtilities> createState() => _MMenuUtilitiesState();
+}
+
+class _MMenuUtilitiesState extends State<MMenuUtilities> {
+  @override
+  void initState() {
+    TableProviders.of(context).initShowMessage(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      ignoring: context.watch<TableProviders>().isLoading,
       child: Scaffold(
         appBar: AppBar(),
         body: SafeArea(

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:my_cving/app/config/constant.dart';
-import 'package:my_cving/app/services/logger.dart';
 
 class NetWorkMmenu {
   final Dio dio = Dio(BaseOptions(
@@ -13,11 +12,6 @@ class NetWorkMmenu {
     ..interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
-    ))
-    ..interceptors.add(InterceptorsWrapper(
-      onError: (e, handler) {
-        logger.e(e);
-      },
     ));
 
   static final NetWorkMmenu _singleton = NetWorkMmenu._internal();

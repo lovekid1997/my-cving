@@ -7,6 +7,8 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/elements/restaurants.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/net_work/net_work.dart';
 import 'package:my_cving/app/services/logger.dart';
+import 'package:my_cving/app/utils/extensions.dart';
+import 'package:my_cving/app/utils/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -48,9 +50,11 @@ class RestaurantProviders extends BaseChangeNotifier {
 
 class BaseChangeNotifier extends ChangeNotifier {
   StreamController errorStream = StreamController<String>();
+  StreamController successSream = StreamController<String>();
   @override
   void dispose() {
     errorStream.close();
+    successSream.close();
     super.dispose();
   }
 
@@ -58,12 +62,56 @@ class BaseChangeNotifier extends ChangeNotifier {
     errorStream.sink.add(e.response?.data?.toString() ?? '');
   }
 
+  addErrorMessageWithString(String e) {
+    errorStream.sink.add(e);
+  }
+
+  addSuccessMessage(String message) {
+    successSream.sink.add(message);
+  }
+
   void initShowMessage(BuildContext context) {
     errorStream.stream
         .debounceTime(const Duration(milliseconds: 500))
         .listen((event) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(event)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            event,
+            style: context.titleMedium.copyWith(color: cWhite),
+          ),
+          duration: const Duration(seconds: 5),
+          showCloseIcon: true,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 100,
+            right: 20,
+            left: 20,
+          ),
+          backgroundColor: const Color(0xffe74c3c),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    });
+    successSream.stream
+        .debounceTime(const Duration(milliseconds: 500))
+        .listen((event) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            event,
+            style: context.titleMedium.copyWith(color: cWhite),
+          ),
+          duration: const Duration(seconds: 5),
+          showCloseIcon: true,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 100,
+            right: 20,
+            left: 20,
+          ),
+          backgroundColor: const Color(0xff3498db),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     });
   }
 }

@@ -20,6 +20,10 @@ class TableProviders extends BaseChangeNotifier {
   List<CreateTableElement> createTableElements = [];
   List<String> generated = [];
 
+  List<String> failed = [];
+
+  bool isLoading = false;
+
   addCreateTableElement(CreateTableElement e) {
     createTableElements.add(e);
     notifyListeners();
@@ -43,21 +47,35 @@ class TableProviders extends BaseChangeNotifier {
 
   Future createTable({
     required List<String> generated,
-    required String positionName,
     required String restaurantId,
   }) async {
+    isLoading = true;
+    notifyListeners();
     for (var name in generated) {
       final result = await _createTable(
         name: name,
-        positionName: positionName,
+        positionName: selectedPosition?.name ?? '',
         restaurantId: restaurantId,
       );
-      if (result) {
-        progress = _count * 100 / generated.length;
-        _count++;
+      progress = _count / generated.length;
+      _count++;
+      if (!result) {
+        failed.add(name);
       }
+      notifyListeners();
       await Future.delayed(const Duration(seconds: 3));
     }
+    if (failed.isNotEmpty) {
+      addErrorMessageWithString(
+          'Không tạo được ${failed.length} bàn: ${failed.join(', ')}');
+    } else {
+      addSuccessMessage('Tạo thành công $_count bàn!!');
+    }
+    failed.clear();
+    progress = 0;
+    _count = 1;
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<bool> _createTable({
@@ -100,6 +118,11 @@ class TableProviders extends BaseChangeNotifier {
   void changeSelectedTablePosition(TablePosition tablePosition) {
     selectedPosition = tablePosition;
     notifyListeners();
+  }
+
+  void changeDependencyElementTable(
+      CreateTableElement createTableElement, int index) {
+    createTableElements[index] = createTableElement;
   }
 }
 
