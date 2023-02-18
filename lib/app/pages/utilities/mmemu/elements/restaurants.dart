@@ -13,7 +13,7 @@ class Restaurant {
     required this.image,
   });
 
-  /// factory.
+
   factory Restaurant.fromJson(Map<String, dynamic> json) =>
       _$RestaurantFromJson(json);
 

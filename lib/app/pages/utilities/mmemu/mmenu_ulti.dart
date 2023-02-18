@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:my_cving/app/config/constant.dart';
+import 'package:my_cving/app/pages/utilities/mmemu/providers/create_table_providers.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/providers/restaurant_providers.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/widgets/create_quickly_table.dart';
 import 'package:my_cving/app/utils/extensions.dart';
@@ -14,14 +15,21 @@ class MMenuUtilities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => RestaurantProviders(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => RestaurantProviders(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TableProviders(),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
+            child: ListView(
               children: const [
                 _InputTokenAndShowRestaurants(),
                 kHeight20,

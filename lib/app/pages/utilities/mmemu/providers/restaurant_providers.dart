@@ -25,7 +25,7 @@ class RestaurantProviders extends BaseChangeNotifier {
       selectedRestaurant = mmenuRestaurants.restaurants.firstOrNull;
       notifyListeners();
     } on DioError catch (e) {
-      addErrorMessage(e.response?.data?.toString() ?? '');
+      addErrorMessage(e);
       logger.e(e);
     }
   }
@@ -54,8 +54,8 @@ class BaseChangeNotifier extends ChangeNotifier {
     super.dispose();
   }
 
-  addErrorMessage(String message) {
-    errorStream.sink.add(message);
+  addErrorMessage(DioError e) {
+    errorStream.sink.add(e.response?.data?.toString() ?? '');
   }
 
   void initShowMessage(BuildContext context) {

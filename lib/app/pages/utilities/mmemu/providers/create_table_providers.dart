@@ -1,15 +1,57 @@
+import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_cving/app/config/constant.dart';
+import 'package:my_cving/app/pages/utilities/mmemu/elements/table_position.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/net_work/net_work.dart';
+import 'package:my_cving/app/pages/utilities/mmemu/providers/restaurant_providers.dart';
 import 'package:my_cving/app/services/logger.dart';
+import 'package:provider/provider.dart';
 
-class CreateTableProgress extends ChangeNotifier {
+class TableProviders extends BaseChangeNotifier {
+  static TableProviders of(BuildContext context) =>
+      context.read<TableProviders>();
+  final NetWorkMmenu netWorkMmenu = NetWorkMmenu();
   double progress = 0;
   double _count = 1;
-  createTable(List<String> generated, String restaurantId) async {
+  TablePositions positions = TablePositions([]);
+  TablePosition? selectedPosition;
+
+  List<CreateTableElement> createTableElements = [];
+  List<String> generated = [];
+
+  addCreateTableElement(CreateTableElement e) {
+    createTableElements.add(e);
+    notifyListeners();
+  }
+
+  void generate(int numbers) {
+    try {
+      final List<String> result = [];
+      for (int i = 0; i < numbers; i++) {
+        result.add(createTableElements.map((e) => e.calcValue).join());
+      }
+      createTableElements.refresh();
+      generated
+        ..clear()
+        ..addAll(result);
+      notifyListeners();
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future createTable({
+    required List<String> generated,
+    required String positionName,
+    required String restaurantId,
+  }) async {
     for (var name in generated) {
-      final result = await _createTable(name, '62a82f3e534ee994fd065f0d');
+      final result = await _createTable(
+        name: name,
+        positionName: positionName,
+        restaurantId: restaurantId,
+      );
       if (result) {
         progress = _count * 100 / generated.length;
         _count++;
@@ -18,14 +60,17 @@ class CreateTableProgress extends ChangeNotifier {
     }
   }
 
-  Future<bool> _createTable(String name, String restaurantId) async {
+  Future<bool> _createTable({
+    required String name,
+    required String positionName,
+    required String restaurantId,
+  }) async {
     try {
-      final netWorkMmenu = NetWorkMmenu();
       await netWorkMmenu.dio.post(
         '$baseUrlMmenu/restaurants/$restaurantId/table',
         data: {
           "name": name,
-          "position": "khu vuc 1",
+          "position": positionName,
         },
       );
       return true;
@@ -34,36 +79,20 @@ class CreateTableProgress extends ChangeNotifier {
       return false;
     }
   }
-}
 
-final createTableProviders =
-    StateNotifierProvider<CreateTableStateProviders, List<CreateTableElement>>(
-        (ref) => CreateTableStateProviders());
-
-class CreateTableStateProviders
-    extends StateNotifier<List<CreateTableElement>> {
-  CreateTableStateProviders()
-      : super([
-          CreateTableElement(TableElementType.text, text: 'A'),
-          CreateTableElement(
-            TableElementType.number,
-            countNumberMethod: CountNumberMethod.begin0AndCount1,
-            countNumberType: CountNumberType.startingFromZero,
-          ),
-        ]);
-  List<CreateTableElement> get data => state;
-
-  List<String> generate(int numbers) {
+  Future fetchTablePosition(String restaurantId) async {
+    // restaurants/{restaurantId}/table-position
+    // get
     try {
-      final List<String> result = [];
-      for (int i = 0; i < numbers; i++) {
-        result.add(data.map((e) => e.calcValue).join());
-      }
-      data.refresh();
-      return result;
-    } catch (e) {
+      final results = await netWorkMmenu.dio.get(
+        '/restaurants/$restaurantId/table-position',
+      );
+      positions = TablePositions.fromJson(results.data);
+      selectedPosition = positions.positions.firstOrNull;
+      notifyListeners();
+    } on DioError catch (e) {
       logger.e(e);
-      return [];
+      addErrorMessage(e);
     }
   }
 }
