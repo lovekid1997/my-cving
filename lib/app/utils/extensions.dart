@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/services/theme_providers.dart';
 
 extension StringExtension on String {
@@ -34,6 +35,47 @@ extension StringExtension on String {
         height: height,
         color: color,
         fit: fit,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+      );
+
+  Image imageNetwork({
+    AssetBundle? bundle,
+    Widget Function(BuildContext, Widget, int?, bool)? frameBuilder,
+    Widget Function(BuildContext, Object, StackTrace?)? errorBuilder,
+    String? semanticLabel,
+    bool excludeFromSemantics = false,
+    double? scale,
+    double? width,
+    double? height,
+    Color? color,
+    Animation<double>? opacity,
+    BlendMode? colorBlendMode,
+    BoxFit? fit,
+    AlignmentGeometry alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    Rect? centerSlice,
+    bool matchTextDirection = false,
+    bool gaplessPlayback = false,
+    bool isAntiAlias = false,
+    String? package,
+    FilterQuality filterQuality = FilterQuality.low,
+    int? cacheWidth,
+    int? cacheHeight,
+  }) =>
+      Image.network(
+        this,
+        width: width,
+        height: height,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return ImageAssets.crying.image(
+            width: width,
+            height: height,
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+          );
+        },
         cacheWidth: cacheWidth,
         cacheHeight: cacheHeight,
       );
