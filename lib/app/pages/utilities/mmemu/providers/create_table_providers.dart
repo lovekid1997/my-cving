@@ -81,8 +81,6 @@ class TableProviders extends BaseChangeNotifier {
   }
 
   Future fetchTablePosition(String restaurantId) async {
-    // restaurants/{restaurantId}/table-position
-    // get
     try {
       final results = await netWorkMmenu.dio.get(
         '/restaurants/$restaurantId/table-position',
