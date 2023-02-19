@@ -97203,7 +97203,7 @@ s=2
 break
 case 4:p=n.length
 if(p!==0)q.a.A(0,"Kh\xf4ng t\u1ea1o \u0111\u01b0\u1ee3c "+p+" b\xe0n: "+B.b.c2(n,", "))
-else q.b.A(0,"T\u1ea1o th\xe0nh c\xf4ng "+q.z+" b\xe0n!!")
+else q.b.A(0,"T\u1ea1o th\xe0nh c\xf4ng "+(q.z-1)+" b\xe0n!!")
 B.b.T(n)
 q.y=0
 q.z=1
@@ -97217,7 +97217,7 @@ var $async$As=A.N(function(d,e){if(d===1){o=e
 s=p}while(true)switch(s){case 0:p=4
 l=t.N
 s=7
-return A.V(n.x.a.ER(0,"https://stagingapi.mmenu.io/v2/restaurants/"+c+"/table",null,A.aC(["name",a,"position",b],l,l),null,null,A.aYK("POST",null),null,t.z),$async$As)
+return A.V(n.x.a.ER(0,"https://api.mmenu.io/v2/restaurants/"+c+"/table",null,A.aC(["name",a,"position",b],l,l),null,null,A.aYK("POST",null),null,t.z),$async$As)
 case 7:q=!0
 s=1
 break
@@ -114902,7 +114902,7 @@ r($,"bly","aeL",()=>A.b1k("initializeDateFormatting(<locale>)",B.a0o))
 s($,"bt7","b88",()=>48)
 s($,"bsg","b7D",()=>A.aWe(10))
 s($,"bp8","aWG",()=>A.arj(""))
-s($,"bpf","aWH",()=>{var q=A.b9i("https://stagingapi.mmenu.io/v2",A.aC(["appid","mmenu-admin.android.1.25.78+773","lang","en"],t.N,t.z)),p=A.aQO(),o=new A.WN(A.a([],A.ag("p<k0>")),A.aU9(),A.aU9(),A.aU9())
+s($,"bpf","aWH",()=>{var q=A.b9i("https://api.mmenu.io/v2",A.aC(["appid","mmenu-admin.android.1.25.78+773","lang","en"],t.N,t.z)),p=A.aQO(),o=new A.WN(A.a([],A.ag("p<k0>")),A.aU9(),A.aU9(),A.aU9())
 p=new A.aiy(p,o,A.aQO(),new A.ain(),!1)
 p.k6$=q
 p.hi$=new A.afW(A.L(t.Gf))
