@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:my_cving/app/config/constant.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/providers/create_table_providers.dart';
 import 'package:my_cving/app/pages/utilities/mmemu/providers/restaurant_providers.dart';
-import 'package:my_cving/app/utils/extensions.dart';
 import 'package:provider/provider.dart';
 
 class ButtonQuickCreateTable extends StatefulWidget {

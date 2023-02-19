@@ -69,7 +69,7 @@ class TableProviders extends BaseChangeNotifier {
       addErrorMessageWithString(
           'Không tạo được ${failed.length} bàn: ${failed.join(', ')}');
     } else {
-      addSuccessMessage('Tạo thành công $_count bàn!!');
+      addSuccessMessage('Tạo thành công ${_count - 1} bàn!!');
     }
     failed.clear();
     progress = 0;

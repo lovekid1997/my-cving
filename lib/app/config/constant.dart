@@ -34,4 +34,5 @@ class ImageAssets {
 }
 
 // MMENU
-const String baseUrlMmenu = 'https://stagingapi.mmenu.io/v2';
+// const String baseUrlMmenu = 'https://stagingapi.mmenu.io/v2';
+const String baseUrlMmenu = 'https://api.mmenu.io/v2';
