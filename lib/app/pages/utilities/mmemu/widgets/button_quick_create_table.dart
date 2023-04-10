@@ -29,7 +29,9 @@ class ButtonQuickCreateTableState extends State<ButtonQuickCreateTable> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _Format(),
+        
         kHeight20,
+
         Row(
           children: [
             _InputCountNumber(
