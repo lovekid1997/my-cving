@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "my-cving",
-    "public": "build/web",
+    "public": "docs/",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -192,7 +192,7 @@ class CreateTableElement {
 
         switch (countNumberType) {
           case CountNumberType.startingFromZero:
-            if (_countNumber < 10) {
+            if (int.parse(temp) < 10) {
               return '0$temp';
             }
             return temp;
