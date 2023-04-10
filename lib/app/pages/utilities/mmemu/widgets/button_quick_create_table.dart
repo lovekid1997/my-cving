@@ -30,7 +30,6 @@ class ButtonQuickCreateTableState extends State<ButtonQuickCreateTable> {
       children: [
         const _Format(),
         kHeight20,
-        
         Row(
           children: [
             _InputCountNumber(
