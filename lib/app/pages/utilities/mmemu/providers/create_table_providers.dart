@@ -192,7 +192,10 @@ class CreateTableElement {
 
         switch (countNumberType) {
           case CountNumberType.startingFromZero:
-            return '0$temp';
+            if (_countNumber < 10) {
+              return '0$temp';
+            }
+            return temp;
           case CountNumberType.notStartingFromZero:
             return temp;
           default:
